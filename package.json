@@ -1,0 +1,21 @@
+{
+  "name": "server-side",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "node test.js",
+    "dev": "node server.js"
+  },
+  "author": "Mai Xuan Nghia",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.13",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7"
+  }
+}
