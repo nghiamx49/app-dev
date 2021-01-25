@@ -2,7 +2,9 @@ const express = require("express");
 const staffCRUD = express.Router({ mergeParams: true });
 
 //get all staff in the system
-staffCRUD.get("/", (req, res, next) => {});
+staffCRUD.get("/", (req, res) => {
+  res.send("hello");
+});
 
 staffCRUD.param("userId", (req, res, next) => {});
 
