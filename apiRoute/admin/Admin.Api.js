@@ -7,8 +7,8 @@ const passportConf = require("../../Middleware/Auth.Middleware");
 const checkRole = require("../../Middleware/checkRole.Middleware");
 //refer to stafCRUD
 
-// adminApi.use(checkRole.isAdmin);
 adminApi.use(passport.authenticate("jwt", { session: false }));
+adminApi.use(checkRole.isAdmin);
 
 adminApi.use("/staff", staffCRUD);
 
