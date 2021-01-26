@@ -15,6 +15,7 @@ db.traineeInfo = require("./TraineeInfo.Mode");
 db.trainerInfo = require("./TrainerInfo.Model");
 db.trainerTypes = require("./TrainerTypes.Model");
 
+const User = db.users;
 const Roles = db.roles;
 const Types = db.trainerTypes;
 const Programming = db.programmings;
@@ -80,6 +81,16 @@ db.initialize = () => {
       new Programming({
         name: "React.JS",
       }).save((err) => console.log(err));
+    }
+  });
+  db.users.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      new User({
+        username: "admin",
+        password: "admin",
+        name: "Mai Xuan Nghia",
+        roleId: Roles.find({ name: "admin" }),
+      });
     }
   });
 };

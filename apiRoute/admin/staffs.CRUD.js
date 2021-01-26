@@ -3,9 +3,7 @@ const staffCRUD = express.Router();
 const db = require("../../Model/db.Connection");
 const User = db.users;
 const Role = db.roles;
-const TrainerInfo = db.trainerInfo;
-const Type = db.trainerTypes;
-// const passport = require("passport");
+//const passport = require("passport");
 // const Jwt = require("jsonwebtoken");
 
 staffCRUD.get("/", async (req, res, next) => {
