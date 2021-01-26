@@ -64,7 +64,7 @@ trainerCRUD.post(
         if (result) {
           res.status(200).json({
             message: {
-              mesBody: "Created account successfully",
+              mesBody: "Created trainer account successfully",
               mesError: false,
               role: newUser.roleId,
             },
