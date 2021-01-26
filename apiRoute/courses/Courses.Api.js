@@ -1,26 +1,69 @@
 const express = require("express");
 const courseRoute = express.Router();
-const staffCRUD = require("./staffs.CRUD");
-const trainerCURD = require("./trainer.CRUD");
-const authJwt = require("../../Middleware/Auth.Middleware");
-const db = require("../../Model/db.Connection");
+const db = require("../../Migrations/db.Connection");
+const passport = require("passport");
+const passportConf = require("../../Middleware/Auth.Middleware");
 const Course = db.courses;
 const Category = db.categories;
 //refer to stafCRUD
-courseRoute.get("/courses", (req, res, next) => {});
 
-//refer to trainerCRUD
-courseRoute.param(":courseId", async (req, res, next) => {
-  const { id } = req.params;
-  if (!id) {
+courseRoute.use(passport.authenticate("jwt", { session: false }));
+
+courseRoute.get("/", async (req, res, next) => {
+  try {
+    let allCourses = await Course.find({});
+    //using promise all to resolve all promise that the array.prototype.map function retrun
+    const courses = await Promise.all(
+      allCourses.map(async (course) => {
+        let courseCate = await Category.findById(course.categoryId[0]);
+        if (!courseCate) {
+          next();
+        }
+        const { _id, name, description, categoryId } = course;
+        course = {
+          _id,
+          name,
+          description,
+          categoryId,
+          category: courseCate.name,
+        };
+        return course;
+      })
+    );
+    res.status(200).json({ message: { courses: courses }, mesError: false });
+  } catch (error) {
     res
-      .status(400)
-      .json({ message: { mesBody: "required an paramerter" }, mesError: true });
-  } else if (id) {
-    let findCourse = await Course.findOne({ id: id });
-    if(findCourse) {
-        
-    }
+      .status(404)
+      .json({ message: { mesBody: "No course found" }, mesError: true });
+    next(error);
   }
 });
+
+
+
+//refer to trainerCRUD
+courseRoute.param("courseId", async (req, res, next, courseId) => {
+  try {
+    let findCourse = await Course.findById(courseId);
+    const { _id, name, description, categoryId } = findCourse;
+    let courseCate = await Category.findById(categoryId[0]);
+    req.course = {
+      _id,
+      name,
+      description,
+      categoryId,
+      category: courseCate.name || "",
+    };
+    next();
+  } catch (error) {
+    res
+      .status(404)
+      .json({ message: { mesBody: "No course found" }, mesError: true });
+  }
+});
+
+courseRoute.get("/detail/:courseId", (req, res, next) => {
+  res.status(200).json({ message: { course: req.course }, mesError: false });
+});
+
 module.exports = courseRoute;

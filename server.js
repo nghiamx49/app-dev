@@ -8,8 +8,9 @@ const app = express();
 const PORT = 4000 || process.env.PORT;
 const adminRoute = require("./apiRoute/admin/Admin.Api");
 const staffRoute = require("./apiRoute/staffs/TraningStaff.Api");
-const db = require("./Model/db.Connection");
+const db = require("./Migrations/db.Connection");
 const authRoute = require("./apiRoute/auth/auth");
+const courseroute = require("./apiRoute/courses/Courses.Api");
 const passport = require("passport");
 // const swaggerUi = require("swagger-ui-express");
 // const swaggerDoc = require("swagger-jsdoc");
@@ -59,6 +60,7 @@ app.use(errorHandler());
 
 //routing api
 app.use("/auth", authRoute);
+app.use("/courses", courseroute);
 app.use("/admin", adminRoute);
 app.use("/staff", staffRoute);
 app.listen(PORT, () => {

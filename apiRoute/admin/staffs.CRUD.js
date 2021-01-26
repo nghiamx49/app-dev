@@ -1,6 +1,6 @@
 const express = require("express");
 const staffCRUD = express.Router();
-const db = require("../../Model/db.Connection");
+const db = require("../../Migrations/db.Connection");
 const User = db.users;
 const Role = db.roles;
 //const passport = require("passport");
@@ -10,13 +10,19 @@ staffCRUD.get("/", async (req, res, next) => {
   try {
     let staffRole = await Role.findOne({ name: "staff" });
     let staffs = await User.find({ roleId: staffRole._id });
+    if (!staffs || staffs.length < 1) {
+      res.status(404).json({
+        message: { mesBody: "No staff found in application" },
+        mesError: true,
+      });
+    }
     res.status(200).json({
-      message: { staffs: staffs.map((staff) => staff._id) },
+      message: { staffs: staffs },
       mesError: false,
     });
   } catch (error) {
     res.status(500).json({
-      message: { mesBody: "No staff found in application" },
+      message: { mesBody: "error had occur" },
       mesError: true,
     });
     next(error);

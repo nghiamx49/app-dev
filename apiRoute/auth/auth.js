@@ -1,6 +1,6 @@
 const express = require("express");
 const authRoute = express.Router();
-const db = require("../../Model/db.Connection");
+const db = require("../../Migrations/db.Connection");
 const User = db.users;
 const Role = db.roles;
 const passport = require("passport");

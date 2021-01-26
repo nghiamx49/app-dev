@@ -5,7 +5,9 @@ const TraineInfo = mongoose.Schema({
   age: Number,
   email: String,
   educatation: String,
-  programmingId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Programming" }],
+  programmingId: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Programmings" },
+  ],
   TOEICScore: Number,
   experienceDetails: String,
   department: String,

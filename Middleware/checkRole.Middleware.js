@@ -1,4 +1,4 @@
-const db = require("../Model/db.Connection");
+const db = require("../Migrations/db.Connection");
 const User = db.users;
 const Role = db.roles;
 const passport = require("passport");
@@ -29,9 +29,10 @@ const isStaff = async (req, res, next) => {
     const findUser = await User.findById(_id);
     const findRole = await Role.findById(findUser.roleId[0]);
     const { name } = findRole;
-    if (name === "staff") {
+    if (!name === "staff") {
       next();
     }
+    next();
   } catch (error) {
     res.status(403).json({
       message: { mesBody: "Your dont have permission to access this page" },
@@ -47,9 +48,10 @@ const isTrainer = async (req, res, next) => {
     const findUser = await User.findById(_id);
     const findRole = await Role.findById(findUser.roleId[0]);
     const { name } = findRole;
-    if (name === "trainer") {
+    if (!name === "trainer") {
       next();
     }
+    next();
   } catch (error) {
     res.status(403).json({
       message: { mesBody: "Your dont have permission to access this page" },
@@ -65,9 +67,10 @@ const isTrainee = async (req, res, next) => {
     const findUser = await User.findById(_id);
     const findRole = await Role.findById(findUser.roleId[0]);
     const { name } = findRole;
-    if (name === "trainee") {
+    if (!name === "trainee") {
       next();
     }
+    next();
   } catch (error) {
     res.status(403).json({
       message: { mesBody: "Your dont have permission to access this page" },
