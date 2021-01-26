@@ -84,6 +84,4 @@ db.initialize = () => {
   });
 };
 
-db.ROLE = ["admin", "staff", "trainer", "trainee"];
-
 module.exports = db;

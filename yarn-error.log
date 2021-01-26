@@ -1,5 +1,5 @@
 Arguments: 
-  D:\nodejs\node.exe C:\Users\mxngh\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add nodeon
+  D:\nodejs\node.exe C:\Users\mxngh\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add errorr-handler
 
 PATH: 
   C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\mxngh\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;D:\nodejs;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn;C:\Program Files\Azure Data Studio\bin;C:\Program Files\dotnet;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Users\mxngh\AppData\Local\Microsoft\WindowsApps;D:\Microsoft VS Code\Microsoft VS Code\bin;C:\Users\mxngh\AppData\Roaming\npm;D:\WebstormIDE\WebStorm 2020.2.3\bin;C:\Program Files\Azure Data Studio\bin;C:\Users\mxngh\.dotnet\tools
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/nodeon: Not found
+  Error: https://registry.yarnpkg.com/errorr-handler: Not found
       at Request.params.callback [as _callback] (C:\Users\mxngh\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66988:18)
       at Request.self.callback (C:\Users\mxngh\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
       at Request.emit (events.js:315:20)
@@ -34,13 +34,14 @@ npm manifest:
     "main": "server.js",
     "scripts": {
       "test": "node test.js",
-      "dev": "node server.js"
+      "dev": "nodemon server.js"
     },
     "author": "Mai Xuan Nghia",
     "license": "ISC",
     "dependencies": {
       "bcryptjs": "^2.4.3",
       "body-parser": "^1.19.0",
+      "cookie-parser": "^1.4.5",
       "cors": "^2.8.5",
       "dotenv": "^8.2.0",
       "errorhandler": "^1.5.1",
@@ -49,6 +50,9 @@ npm manifest:
       "mongoose": "^5.11.13",
       "morgan": "^1.10.0",
       "nodemon": "^2.0.7",
+      "passport": "^0.4.1",
+      "passport-jwt": "^4.0.0",
+      "passport-local": "^1.0.0",
       "swagger-jsdoc": "^6.0.1",
       "swagger-ui-express": "^4.1.6"
     }
@@ -395,6 +399,14 @@ Lockfile:
     version "1.0.4"
     resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
     integrity sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==
+  
+  cookie-parser@^1.4.5:
+    version "1.4.5"
+    resolved "https://registry.yarnpkg.com/cookie-parser/-/cookie-parser-1.4.5.tgz#3e572d4b7c0c80f9c61daf604e4336831b5d1d49"
+    integrity sha512-f13bPUj/gG/5mDr+xLmSxxDsB9DQiTIfhJS/sqjrmfAWiAN+x2O4i/XguTL9yDZ+/IFDanJ+5x7hC4CXT9Tdzw==
+    dependencies:
+      cookie "0.4.0"
+      cookie-signature "1.0.6"
   
   cookie-signature@1.0.6:
     version "1.0.6"
@@ -900,7 +912,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/json-buffer/-/json-buffer-3.0.0.tgz#5b1f397afc75d677bde8bcfc0e47e1f9a3d9a898"
     integrity sha1-Wx85evx11ne96Lz8Dkfh+aPZqJg=
   
-  jsonwebtoken@^8.5.1:
+  jsonwebtoken@^8.2.0, jsonwebtoken@^8.5.1:
     version "8.5.1"
     resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz#00e71e0b8df54c2121a1f26137df2280673bcc0d"
     integrity sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==
@@ -1233,6 +1245,34 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/parseurl/-/parseurl-1.3.3.tgz#9da19e7bee8d12dff0513ed5b76957793bc2e8d4"
     integrity sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==
   
+  passport-jwt@^4.0.0:
+    version "4.0.0"
+    resolved "https://registry.yarnpkg.com/passport-jwt/-/passport-jwt-4.0.0.tgz#7f0be7ba942e28b9f5d22c2ebbb8ce96ef7cf065"
+    integrity sha512-BwC0n2GP/1hMVjR4QpnvqA61TxenUMlmfNjYNgK0ZAs0HK4SOQkHcSv4L328blNTLtHq7DbmvyNJiH+bn6C5Mg==
+    dependencies:
+      jsonwebtoken "^8.2.0"
+      passport-strategy "^1.0.0"
+  
+  passport-local@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/passport-local/-/passport-local-1.0.0.tgz#1fe63268c92e75606626437e3b906662c15ba6ee"
+    integrity sha1-H+YyaMkudWBmJkN+O5BmYsFbpu4=
+    dependencies:
+      passport-strategy "1.x.x"
+  
+  passport-strategy@1.x.x, passport-strategy@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
+    integrity sha1-tVOaqPwiWj0a0XlHbd8ja0QPUuQ=
+  
+  passport@^0.4.1:
+    version "0.4.1"
+    resolved "https://registry.yarnpkg.com/passport/-/passport-0.4.1.tgz#941446a21cb92fc688d97a0861c38ce9f738f270"
+    integrity sha512-IxXgZZs8d7uFSt3eqNjM9NQ3g3uQCW5avD8mRNoXV99Yig50vjuaez6dQK2qC0kVWPRTujxY0dWgGfT09adjYg==
+    dependencies:
+      passport-strategy "1.x.x"
+      pause "0.0.1"
+  
   path-is-absolute@^1.0.0:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
@@ -1242,6 +1282,11 @@ Lockfile:
     version "0.1.7"
     resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
     integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
+  
+  pause@0.0.1:
+    version "0.0.1"
+    resolved "https://registry.yarnpkg.com/pause/-/pause-0.0.1.tgz#1d408b3fdb76923b9543d96fb4c9dfd535d9cb5d"
+    integrity sha1-HUCLP9t2kjuVQ9lvtMnf1TXZy10=
   
   picomatch@^2.0.4, picomatch@^2.2.1:
     version "2.2.2"

@@ -2,13 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const errorHandler = require("errorhandler");
 const cookieParser = require("cookie-parser");
 const app = express();
 const PORT = 4000 || process.env.PORT;
 const adminRoute = require("./apiRoute/admin/Admin.Api");
 const staffRoute = require("./apiRoute/staffs/TraningStaff.Api");
-const trainerRoute = require("./apiRoute/trainer/Trainer.Api");
-const traineeRoute = require("./apiRoute/trainee/Trainee.Api");
 const db = require("./Model/db.Connection");
 const authRoute = require("./apiRoute/auth/auth");
 const passport = require("passport");
@@ -56,14 +55,12 @@ app.use(cors());
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(errorHandler());
 
 //routing api
 app.use("/auth", authRoute);
 app.use("/admin", adminRoute);
 app.use("/staff", staffRoute);
-app.use("/trainer", trainerRoute);
-app.use("/trainee", traineeRoute);
-
 app.listen(PORT, () => {
   console.log(`sever up and run on ${PORT}`);
 });

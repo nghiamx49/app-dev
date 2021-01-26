@@ -6,6 +6,7 @@ staffCRUD.get("/", (req, res) => {
   res.send("hello");
 });
 
+
 staffCRUD.param("userId", (req, res, next) => {});
 
 staffCRUD.get("/detail/:userId", (req, res, next) => {});

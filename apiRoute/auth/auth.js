@@ -17,44 +17,44 @@ const signToken = (userId) => {
   );
 };
 
-authRoute.post(
-  "/register",
-  //verifySignUp.checkDuplicateUserName,
-  async (req, res) => {
-    const { username, password, name, roles } = req.body;
-    // Create a new user
-    try {
-      let user = await User.findOne({ username });
-      if (user) {
-        res.status(400).json({
-          message: { mesBody: "Username had already taken", mesError: true },
-        });
-      } else {
-        const newUser = new User({
-          username,
-          password,
-          name,
-        });
-        let findRole = await Role.findOne({ name: roles });
-        newUser.roleId = findRole;
-        let result = await newUser.save();
-        if (result) {
-          res.status(200).json({
-            message: {
-              mesBody: "Created account successfully",
-              mesError: false,
-              role: newUser.roleId,
-            },
-          });
-        }
-      }
-    } catch (error) {
-      res
-        .status(500)
-        .json({ message: { mesBody: "Error had occur", mesError: true } });
-    }
-  }
-);
+// authRoute.post(
+//   "/register",
+//   //verifySignUp.checkDuplicateUserName,
+//   async (req, res) => {
+//     const { username, password, name, roles } = req.body;
+//     // Create a new user
+//     try {
+//       let user = await User.findOne({ username });
+//       if (user) {
+//         res.status(400).json({
+//           message: { mesBody: "Username had already taken", mesError: true },
+//         });
+//       } else {
+//         const newUser = new User({
+//           username,
+//           password,
+//           name,
+//         });
+//         let findRole = await Role.findOne({ name: roles });
+//         newUser.roleId = findRole;
+//         let result = await newUser.save();
+//         if (result) {
+//           res.status(200).json({
+//             message: {
+//               mesBody: "Created account successfully",
+//               mesError: false,
+//               role: newUser.roleId,
+//             },
+//           });
+//         }
+//       }
+//     } catch (error) {
+//       res
+//         .status(500)
+//         .json({ message: { mesBody: "Error had occur", mesError: true } });
+//     }
+//   }
+// );
 
 authRoute.post(
   "/login",
