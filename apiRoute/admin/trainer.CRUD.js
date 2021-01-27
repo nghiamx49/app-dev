@@ -15,7 +15,14 @@ trainerCRUD.get("/", async (req, res, next) => {
     const trainers = await Promise.all(
       allTrainers.map(async (trainer) => {
         trainer.role = "trainer";
-        return staff;
+        let info = await TrainerInfo.findById(trainer.trainerInfoId[0]);
+        const { workingPlace, phoneNumber, email, typeId } = info;
+        let type = await Type.findById(typeId[0]);
+        trainer.workingPlace = workingPlace;
+        trainer.phoneNumber = phoneNumber;
+        trainer.email = email;
+        trainer.type = type.name;
+        return trainer;
       })
     );
     res.status(200).json({ message: { trainers: trainers }, mesError: false });

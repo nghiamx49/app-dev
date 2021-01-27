@@ -9,65 +9,14 @@ const Category = db.categories;
 const userProfile = require("./user.Profile");
 const trainerManager = require("./staff/trainer.Manage");
 const traineeManager = require("./staff/trainee.Manage");
+const courseCRUD = require("./courses.CRUD");
+const categoryCRUD = require("./categories.CRUD");
 
 //after logged into application, use will had access right to this route based on their role
 userRoute.use(passport.authenticate("jwt", { session: false }));
 
-//allow all roles can access to get all courses available in system
-userRoute.get("/courses", async (req, res, next) => {
-  try {
-    let allCourses = await Course.find({});
-    //using promise all to resolve all promise that the array.prototype.map function retrun
-    const courses = await Promise.all(
-      allCourses.map(async (course) => {
-        const { _id, name, description, categoryId } = course;
-        let courseCate = await Category.findById(categoryId[0]);
-        course = {
-          _id,
-          name,
-          description,
-          categoryId,
-          category: courseCate.name,
-        };
-        return course;
-      })
-    );
-    res.status(200).json({ message: { courses: courses }, mesError: false });
-  } catch (error) {
-    res
-      .status(404)
-      .json({ message: { mesBody: "No courses found" }, mesError: true });
-    next(error);
-  }
-});
-
-//find course by courseId and return an object couse with category name
-userRoute.param("courseId", async (req, res, next, courseId) => {
-  try {
-    let findCourse = await Course.findById(courseId);
-    if (!findCourse) {
-      res
-        .status(404)
-        .json({ message: { mesBody: "Course not found" }, mesError: true });
-    }
-    const { _id, name, description, categoryId } = findCourse;
-    let courseCate = await Category.findById(categoryId[0]);
-    req.course = {
-      _id,
-      name,
-      description,
-      categoryId,
-      category: courseCate.name || "",
-    };
-    next();
-  } catch (error) {
-    res.status(500).json({ message: { mesBody: "Errors" }, mesError: true });
-  }
-  next(error);
-});
-
 //find user by id and return an object contains information of this user
-trainerCRUD.param("userId", async (req, res, next, userId) => {
+userRoute.param("userId", async (req, res, next, userId) => {
   try {
     let user = await User.findById(userId);
     if (!user) {
@@ -134,12 +83,10 @@ trainerCRUD.param("userId", async (req, res, next, userId) => {
     next(error);
   }
 });
-
-userRoute.get("/detail/:courseId", (req, res, next) => {
-  res.status(200).json({ message: { course: req.course }, mesError: false });
-});
+userRoute.use("/courses", courseCRUD);
 //all any user can se their own profile and related courses
 userRoute.use("/profile", userProfile);
+userRoute.use("/cateogories", categoryCRUD);
 //manage trainer profile and related courses by staff role
 userRoute.use("/trainers", trainerManager);
 userRoute.use("/trainees", traineeManager);
