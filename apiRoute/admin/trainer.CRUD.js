@@ -84,6 +84,12 @@ trainerCRUD.post("/create", async (req, res) => {
 trainerCRUD.param("trainerId", async (req, res, next, trainerId) => {
   try {
     let trainer = await User.findById(trainerId);
+    if (!trainer) {
+      res.status(404).json({
+        message: { mesBody: "Cannot found trainers" },
+        mesError: true,
+      });
+    }
     let additionInfo = await TrainerInfo.findById(trainer.trainerInfoId[0]);
     let trainerType = await Type.findById(additionInfo.typeId[0]);
     const { _id, username, password, name } = trainer;
@@ -103,7 +109,7 @@ trainerCRUD.param("trainerId", async (req, res, next, trainerId) => {
     next();
   } catch (error) {
     res.status(500).json({
-      message: { mesBody: " trainer account does not exist" },
+      message: { mesBody: "Erorrs" },
       mesError: true,
     });
     next(error);
@@ -155,8 +161,9 @@ trainerCRUD.put("/edit/:trainerId", async (req, res, next) => {
 });
 
 trainerCRUD.delete("/delete/:trainerId", async (req, res, next) => {
-  const { _id } = req.trainer;
+  const { _id, infoId } = req.trainer;
   try {
+    await TrainerInfo.deleteOne({ _id: infoId });
     await User.deleteOne({ _id: _id });
     res.status(200).json({
       message: { mesBody: "Delete trainer account sucessfully" },

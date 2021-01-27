@@ -66,6 +66,11 @@ staffCRUD.post(
 staffCRUD.param("staffId", async (req, res, next, staffId) => {
   try {
     let staff = await User.findById(staffId);
+    if (!staff) {
+      res
+        .status(404)
+        .json({ message: { mesBody: "Cannot found staff" }, mesError: true });
+    }
     const { _id, username, password, name } = staff;
     req.staff = {
       _id,
@@ -76,8 +81,8 @@ staffCRUD.param("staffId", async (req, res, next, staffId) => {
     };
     next();
   } catch (error) {
-    res.status(404).json({
-      message: { mesBody: " staff account does not exist" },
+    res.status(500).json({
+      message: { mesBody: "Error" },
       mesError: true,
     });
     next(error);
@@ -121,7 +126,6 @@ staffCRUD.delete("/delete/:staffId", async (req, res, next) => {
       message: { mesBody: "Delete staff account sucessfully" },
       mesError: false,
     });
-    next();
   } catch (error) {
     res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);

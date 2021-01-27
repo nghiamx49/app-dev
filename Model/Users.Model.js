@@ -19,11 +19,12 @@ UsersSchema.pre("save", async function (next) {
     user.password = await bcrypt.hash(user.password, 8);
     next();
   } catch (error) {
-    console.log(error);
+    res
+      .status(500)
+      .json({ message: { mesBody: "Cannot hash password" }, mesError: true });
     next(error);
   }
 });
-
 
 UsersSchema.methods.comparePassword = function (password, callback) {
   // Compare user password

@@ -3,10 +3,12 @@ const userRoute = express.Router();
 const db = require("../../Migrations/db.Connection");
 const passport = require("passport");
 const passportConf = require("../../Middleware/Auth.Middleware");
+const User = db.users;
 const Course = db.courses;
 const Category = db.categories;
-const userProfile = require("./extend.Api");
+const userProfile = require("./user.Profile");
 const trainerManager = require("./staff/trainer.Manage");
+const traineeManager = require("./staff/trainee.Manage");
 
 //after logged into application, use will had access right to this route based on their role
 userRoute.use(passport.authenticate("jwt", { session: false }));
@@ -18,8 +20,8 @@ userRoute.get("/courses", async (req, res, next) => {
     //using promise all to resolve all promise that the array.prototype.map function retrun
     const courses = await Promise.all(
       allCourses.map(async (course) => {
-        let courseCate = await Category.findById(course.categoryId[0]);
         const { _id, name, description, categoryId } = course;
+        let courseCate = await Category.findById(categoryId[0]);
         course = {
           _id,
           name,
@@ -43,6 +45,11 @@ userRoute.get("/courses", async (req, res, next) => {
 userRoute.param("courseId", async (req, res, next, courseId) => {
   try {
     let findCourse = await Course.findById(courseId);
+    if (!findCourse) {
+      res
+        .status(404)
+        .json({ message: { mesBody: "Course not found" }, mesError: true });
+    }
     const { _id, name, description, categoryId } = findCourse;
     let courseCate = await Category.findById(categoryId[0]);
     req.course = {
@@ -54,17 +61,20 @@ userRoute.param("courseId", async (req, res, next, courseId) => {
     };
     next();
   } catch (error) {
-    res
-      .status(404)
-      .json({ message: { mesBody: "No course found" }, mesError: true });
+    res.status(500).json({ message: { mesBody: "Errors" }, mesError: true });
   }
   next(error);
 });
 
 //find user by id and return an object contains information of this user
-trainerCRUD.param("userId", async (req, res, next, trainerId) => {
+trainerCRUD.param("userId", async (req, res, next, userId) => {
   try {
-    let user = await User.findById(trainerId);
+    let user = await User.findById(userId);
+    if (!user) {
+      res
+        .status(404)
+        .json({ message: { mesBody: "User not found" }, mesError: true });
+    }
     const { _id, username, password, name, roleId } = user;
     let userRole = await User.findById(roleId[0]);
     let additionInfo;
@@ -110,7 +120,7 @@ trainerCRUD.param("userId", async (req, res, next, trainerId) => {
     } else {
       res.status(500).json({
         message: {
-          mesBody: "account does not exist or account role is incorrect",
+          mesBody: "account role is incorrect",
         },
         mesError: true,
       });
@@ -128,8 +138,10 @@ trainerCRUD.param("userId", async (req, res, next, trainerId) => {
 userRoute.get("/detail/:courseId", (req, res, next) => {
   res.status(200).json({ message: { course: req.course }, mesError: false });
 });
-
+//all any user can se their own profile and related courses
 userRoute.use("/profile", userProfile);
+//manage trainer profile and related courses by staff role
 userRoute.use("/trainers", trainerManager);
+userRoute.use("/trainees", traineeManager);
 
 module.exports = userRoute;

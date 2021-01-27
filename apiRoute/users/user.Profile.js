@@ -1,6 +1,7 @@
 const express = require("express");
 const userProfile = express.Router({ mergeParams: true });
 const db = require("../../Migrations/db.Connection");
+const userRelatedCourses = require("./user.RelatedCourses");
 const User = db.users;
 
 userProfile.get("/:userId", (req, res, next) => {
@@ -25,6 +26,6 @@ userProfile.post("/:userId", async (req, res, next) => {
   }
 });
 
-userProfile.get("/:userId/relatedcourses/", (req, res, next) => {});
+userProfile.get("/:userId/relatedcourses", userRelatedCourses);
 
 module.exports = userProfile;
