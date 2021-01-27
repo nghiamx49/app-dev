@@ -10,21 +10,18 @@ const Type = db.trainerTypes;
 
 trainerCRUD.get("/", async (req, res, next) => {
   try {
-    let trainerRole = await Role.findOne({ name: "trainer" });
-    let trainers = await User.find({ roleId: trainerRole._id });
-    if (!trainers || trainers.length < 1) {
-      res.status(404).json({
-        message: { mesBody: "No trainer account found" },
-        mesError: true,
-      });
-    }
-    res.status(200).json({
-      message: { trainers: trainers },
-      mesError: false,
-    });
+    let trainerRole = await Role.find({ name: "trainer" });
+    const allTrainers = await User.find({ roleId: trainerRole._id });
+    const trainers = await Promise.all(
+      allTrainers.map(async (trainer) => {
+        trainer.role = "trainer";
+        return staff;
+      })
+    );
+    res.status(200).json({ message: { trainers: trainers }, mesError: false });
   } catch (error) {
-    res.status(500).json({
-      message: { mesBody: "error had occurred" },
+    res.status(404).json({
+      message: { mesBody: "Cannot found any trainers" },
       mesError: true,
     });
     next(error);

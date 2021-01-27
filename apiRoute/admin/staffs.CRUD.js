@@ -8,21 +8,18 @@ const Role = db.roles;
 
 staffCRUD.get("/", async (req, res, next) => {
   try {
-    let staffRole = await Role.findOne({ name: "staff" });
-    let staffs = await User.find({ roleId: staffRole._id });
-    if (!staffs || staffs.length < 1) {
-      res.status(404).json({
-        message: { mesBody: "No staff found in application" },
-        mesError: true,
-      });
-    }
-    res.status(200).json({
-      message: { staffs: staffs },
-      mesError: false,
-    });
+    let staffRole = await Role.find({ name: "staff" });
+    const allStaff = await User.find({ roleId: staffRole._id });
+    const staffs = await Promise.all(
+      allStaff.map(async (staff) => {
+        staff.role = "staff";
+        return staff;
+      })
+    );
+    res.status(200).json({ message: { staffs: staffs }, mesError: false });
   } catch (error) {
-    res.status(500).json({
-      message: { mesBody: "error had occur" },
+    res.status(404).json({
+      message: { mesBody: "Cannot found any staffs" },
       mesError: true,
     });
     next(error);
@@ -61,9 +58,7 @@ staffCRUD.post(
         }
       }
     } catch (error) {
-      res
-        .status(500)
-        .json({ message: { mesBody: "Error had occur", mesError: true } });
+      res.status(500).json({ message: { mesBody: "Errors", mesError: true } });
     }
   }
 );

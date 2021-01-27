@@ -10,13 +10,16 @@ const isAdmin = async (req, res, next) => {
     const findUser = await User.findById(_id);
     const findRole = await Role.findById(findUser.roleId[0]);
     const { name } = findRole;
-    if (!name === "admin") {
-      next();
+    if (name !== "admin") {
+      res.status(403).json({
+        message: { mesBody: "Your dont have permission to access this page" },
+        mesErorr: true,
+      });
     }
     next();
   } catch (error) {
-    res.status(403).json({
-      message: { mesBody: "Your dont have permission to access this page" },
+    res.status(500).json({
+      message: { mesBody: "Errors" },
       mesErorr: true,
     });
     next(error);
@@ -29,13 +32,16 @@ const isStaff = async (req, res, next) => {
     const findUser = await User.findById(_id);
     const findRole = await Role.findById(findUser.roleId[0]);
     const { name } = findRole;
-    if (!name === "staff") {
-      next();
+    if (name !== "staff") {
+      res.status(403).json({
+        message: { mesBody: "Your dont have permission to access this page" },
+        mesErorr: true,
+      });
     }
     next();
   } catch (error) {
-    res.status(403).json({
-      message: { mesBody: "Your dont have permission to access this page" },
+    res.status(500).json({
+      message: { mesBody: "Errors" },
       mesErorr: true,
     });
     next(error);
@@ -48,13 +54,16 @@ const isTrainer = async (req, res, next) => {
     const findUser = await User.findById(_id);
     const findRole = await Role.findById(findUser.roleId[0]);
     const { name } = findRole;
-    if (!name === "trainer") {
-      next();
+    if (name !== "trainer") {
+      res.status(403).json({
+        message: { mesBody: "Your dont have permission to access this page" },
+        mesErorr: true,
+      });
     }
     next();
   } catch (error) {
-    res.status(403).json({
-      message: { mesBody: "Your dont have permission to access this page" },
+    res.status(500).json({
+      message: { mesBody: "Errors" },
       mesErorr: true,
     });
     next(error);
@@ -67,13 +76,16 @@ const isTrainee = async (req, res, next) => {
     const findUser = await User.findById(_id);
     const findRole = await Role.findById(findUser.roleId[0]);
     const { name } = findRole;
-    if (!name === "trainee") {
-      next();
+    if (name !== "trainee") {
+      res.status(403).json({
+        message: { mesBody: "Your dont have permission to access this page" },
+        mesErorr: true,
+      });
     }
     next();
   } catch (error) {
-    res.status(403).json({
-      message: { mesBody: "Your dont have permission to access this page" },
+    res.status(500).json({
+      message: { mesBody: "Errors" },
       mesErorr: true,
     });
     next(error);
