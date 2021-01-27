@@ -1,15 +1,15 @@
 const express = require("express");
-const extendRoute = express.Router({ mergeParams: true });
+const userProfile = express.Router({ mergeParams: true });
 const db = require("../../Migrations/db.Connection");
 const User = db.users;
 
-extendRoute.get("/:userId", (req, res, next) => {
+userProfile.get("/:userId", (req, res, next) => {
   res
     .status(200)
     .json({ message: { userInfo: req.userInfo }, mesError: false });
 });
 
-extendRoute.post("/:userId", async (req, res, next) => {
+userProfile.post("/:userId", async (req, res, next) => {
   try {
     const { _id } = req.userInfo;
     const { newPassword } = req.body;
@@ -25,6 +25,6 @@ extendRoute.post("/:userId", async (req, res, next) => {
   }
 });
 
-extendRoute.get("/:userId/relatedcourses/", (req, res, next) => {});
+userProfile.get("/:userId/relatedcourses/", (req, res, next) => {});
 
-module.exports = extendRoute;
+module.exports = userProfile;

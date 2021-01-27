@@ -3,10 +3,10 @@ const userRoute = express.Router();
 const db = require("../../Migrations/db.Connection");
 const passport = require("passport");
 const passportConf = require("../../Middleware/Auth.Middleware");
-const checkRole = require("../../Middleware/checkRole.Middleware");
 const Course = db.courses;
 const Category = db.categories;
-const extendRoute = require("./extend.Api");
+const userProfile = require("./extend.Api");
+const trainerManager = require("./staff/trainer.Manage");
 
 //after logged into application, use will had access right to this route based on their role
 userRoute.use(passport.authenticate("jwt", { session: false }));
@@ -129,6 +129,7 @@ userRoute.get("/detail/:courseId", (req, res, next) => {
   res.status(200).json({ message: { course: req.course }, mesError: false });
 });
 
-userRoute.use("/profile", extendRoute);
+userRoute.use("/profile", userProfile);
+userRoute.use("/trainers", trainerManager);
 
 module.exports = userRoute;

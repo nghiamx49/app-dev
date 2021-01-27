@@ -76,7 +76,7 @@ staffCRUD.param("staffId", async (req, res, next, staffId) => {
     };
     next();
   } catch (error) {
-    res.status(500).json({
+    res.status(404).json({
       message: { mesBody: " staff account does not exist" },
       mesError: true,
     });
@@ -89,7 +89,7 @@ staffCRUD.get("/detail/:staffId", async (req, res, next) => {
     res.status(200).json({ message: req.staff });
     next();
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);
   }
 });
@@ -108,7 +108,7 @@ staffCRUD.put("/edit/:staffId", async (req, res, next) => {
       mesError: false,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);
   }
 });
@@ -123,7 +123,7 @@ staffCRUD.delete("/delete/:staffId", async (req, res, next) => {
     });
     next();
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);
   }
 });

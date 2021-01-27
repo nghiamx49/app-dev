@@ -113,9 +113,8 @@ trainerCRUD.param("trainerId", async (req, res, next, trainerId) => {
 trainerCRUD.get("/detail/:trainerId", async (req, res, next) => {
   try {
     res.status(200).json({ message: req.trainer });
-    next();
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);
   }
 });
@@ -150,7 +149,7 @@ trainerCRUD.put("/edit/:trainerId", async (req, res, next) => {
       mesError: false,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);
   }
 });
@@ -163,9 +162,8 @@ trainerCRUD.delete("/delete/:trainerId", async (req, res, next) => {
       message: { mesBody: "Delete trainer account sucessfully" },
       mesError: false,
     });
-    next();
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);
   }
 });
