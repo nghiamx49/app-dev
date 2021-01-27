@@ -12,7 +12,7 @@ categoryCRUD.use(checkRole.isStaff);
 categoryCRUD.get("/", async (req, res, next) => {
   try {
     let categories = await Category.find({});
-    if (!categories) {
+    if (!categories.length) {
       res
         .status(404)
         .json({ message: { mesBody: "Categories found" }, mesError: true });
@@ -47,7 +47,7 @@ categoryCRUD.post("/create", checkRole.isStaff, async (req, res, next) => {
 });
 
 //find category by id an return object contains category detail
-userRoute.param("categoryId", async (req, res, next, categoryId) => {
+categoryCRUD.param("categoryId", async (req, res, next, categoryId) => {
   try {
     let category = await Category.findById(categoryId);
     if (!category) {

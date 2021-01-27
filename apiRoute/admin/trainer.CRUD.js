@@ -10,27 +10,24 @@ const Type = db.trainerTypes;
 
 trainerCRUD.get("/", async (req, res, next) => {
   try {
-    let trainerRole = await Role.find({ name: "trainer" });
+    let trainerRole = await Role.findOne({ name: "trainer" });
     const allTrainers = await User.find({ roleId: trainerRole._id });
+    if (!allTrainers) {
+      res.status(404).json({
+        message: { mesBody: "Cannot found any trainers" },
+        mesError: true,
+      });
+    }
     const trainers = await Promise.all(
       allTrainers.map(async (trainer) => {
         trainer.role = "trainer";
-        let info = await TrainerInfo.findById(trainer.trainerInfoId[0]);
-        const { workingPlace, phoneNumber, email, typeId } = info;
-        let type = await Type.findById(typeId[0]);
-        trainer.workingPlace = workingPlace;
-        trainer.phoneNumber = phoneNumber;
-        trainer.email = email;
-        trainer.type = type.name;
+        await trainer.save();
         return trainer;
       })
     );
     res.status(200).json({ message: { trainers: trainers }, mesError: false });
   } catch (error) {
-    res.status(404).json({
-      message: { mesBody: "Cannot found any trainers" },
-      mesError: true,
-    });
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);
   }
 });

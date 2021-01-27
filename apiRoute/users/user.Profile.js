@@ -3,6 +3,26 @@ const userProfile = express.Router({ mergeParams: true });
 const db = require("../../Migrations/db.Connection");
 const userRelatedCourses = require("./user.RelatedCourses");
 const User = db.users;
+const Role = db.roles;
+
+userProfile.param("userId", async (req, res, next, userId) => {
+  try {
+    let user = await User.findById(userId);
+    const { username, password, name, roleId } = user;
+    let role = await Role.findById(user.roleId);
+    req.userInfo = {
+      username,
+      password,
+      name,
+      roleId,
+      role: role.name || "",
+    };
+    next();
+  } catch (error) {
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
+    next(error);
+  }
+});
 
 userProfile.get("/:userId", (req, res, next) => {
   res

@@ -92,11 +92,11 @@ courseCRUD.put("/edit/:courseId", checkRole.isStaff, async (req, res, next) => {
   try {
     const { name, description, category } = req.body;
     const { _id } = req.course;
-    let category = await Category.find({ name: category });
+    let categoryId = await Category.find({ name: category });
     let findCourse = await Course.findById(_id);
     findCourse.name = name;
     findCourse.description = description;
-    findCourse.categoryId = category;
+    findCourse.categoryId = categoryId;
     await findCourse.save();
     res.status(200).json({
       mesBody: { mesBody: "Update course successfully" },

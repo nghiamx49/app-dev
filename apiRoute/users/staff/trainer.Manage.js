@@ -35,6 +35,44 @@ trainerManager.get("/", async (req, res, next) => {
   }
 });
 
+trainerManager.param("userId", async (req, res, next, userId) => {
+  try {
+    let user = await User.findById(userId);
+    if (!user) {
+      res
+        .status(404)
+        .json({ message: { mesBody: "User not found" }, mesError: true });
+    }
+    const { _id, username, password, name, roleId, trainerInfoId } = user;
+    let userRole = await Role.findById(roleId[0]);
+    //in case user role is trainer
+    let additionInfo = await TrainerInfo.findById(trainerInfoId[0]);
+    const { typeId } = additionInfo;
+    let trainerType = await Type.findById(typeId[0]);
+    req.userInfo = {
+      _id,
+      username,
+      password,
+      name,
+      roleId,
+      infoId: additionInfo._id || "",
+      email: additionInfo.email || "",
+      workingPlace: additionInfo.workingPlace || "",
+      phoneNumber: additionInfo.phoneNumber || "",
+      typeId: additionInfo.typeId[0] || "",
+      type: trainerType.name || "",
+      role: userRole.name || "",
+    };
+    next();
+  } catch (error) {
+    res.status(500).json({
+      message: { mesBody: "Errors" },
+      mesError: true,
+    });
+    next(error);
+  }
+});
+
 //get all trainer profile information
 trainerManager.get("/trainerprofile/:userId", async (req, res, next) => {
   try {
@@ -94,6 +132,6 @@ trainerManager.put("/trainerprofile/:userId", async (req, res, next) => {
   }
 });
 
-trainerManager.use("/trainerprofile/:userId/relatedcoures", userRelatedCourses);
+trainerManager.use("/trainerprofile/:userId/relatedcourses", userRelatedCourses);
 
 module.exports = trainerManager;

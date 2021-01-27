@@ -47,6 +47,53 @@ traineeManager.get("/programmingoptional", async (req, res, next) => {
     next(error);
   }
 });
+trainerManager.param("userId", async (req, res, next, userId) => {
+  try {
+    let user = await User.findById(userId);
+    if (!user) {
+      res
+        .status(404)
+        .json({ message: { mesBody: "User not found" }, mesError: true });
+    }
+    const { _id, username, password, name, roleId, traineeInfoId } = user;
+    let userRole = await Role.findById(roleId[0]);
+    //in case user role is trainer
+    let additionInfo = await TraineeInfo.findById(traineeInfoId[0]);
+    const {
+      dateOfBirth,
+      programmingId,
+      age,
+      email,
+      TOEICScore,
+      experienceDetails,
+      department,
+    } = additionInfo;
+    let programming = await Programming.findById(programmingId[0]);
+    req.userInfo = {
+      _id,
+      username,
+      password,
+      name,
+      roleId,
+      infoId: additionInfo._id || "",
+      dateOfBirth,
+      age,
+      email,
+      programming: programming.name || "",
+      TOEICScore,
+      experienceDetails,
+      department,
+      role: userRole.name || "",
+    };
+    next();
+  } catch (error) {
+    res.status(500).json({
+      message: { mesBody: "Errors" },
+      mesError: true,
+    });
+    next(error);
+  }
+});
 
 //get all trainee profile information
 traineeManager.get("/traineeprofile/:userId", async (req, res, next) => {
@@ -164,6 +211,9 @@ traineeManager.delete("/delete/:userId", async (req, res, next) => {
   }
 });
 
-traineeManager.use("/traineeprofile/:userId/relatedcoures", userRelatedCourses);
+traineeManager.use(
+  "/traineeprofile/:userId/relatedcourses",
+  userRelatedCourses
+);
 
 module.exports = traineeManager;
