@@ -8,6 +8,11 @@ const Role = db.roles;
 userProfile.param("userId", async (req, res, next, userId) => {
   try {
     let user = await User.findById(userId);
+    if (!user) {
+      res
+        .status(201)
+        .json({ message: { mesBody: "User not found" }, mesError: true });
+    }
     const { username, password, name, roleId } = user;
     let role = await Role.findById(user.roleId);
     req.userInfo = {

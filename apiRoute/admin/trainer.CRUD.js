@@ -13,7 +13,7 @@ trainerCRUD.get("/", async (req, res, next) => {
     let trainerRole = await Role.findOne({ name: "trainer" });
     const allTrainers = await User.find({ roleId: trainerRole._id });
     if (!allTrainers) {
-      res.status(404).json({
+      res.status(201).json({
         message: { mesBody: "Cannot found any trainers" },
         mesError: true,
       });
@@ -89,8 +89,8 @@ trainerCRUD.param("trainerId", async (req, res, next, trainerId) => {
   try {
     let trainer = await User.findById(trainerId);
     if (!trainer) {
-      res.status(404).json({
-        message: { mesBody: "Cannot found trainers" },
+      res.status(201).json({
+        message: { mesBody: "Cannot found trainer" },
         mesError: true,
       });
     }

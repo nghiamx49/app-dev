@@ -13,7 +13,7 @@ courseCRUD.get("/", async (req, res, next) => {
     let allCourses = await Course.find({});
     if (!allCourses) {
       res
-        .status(404)
+        .status(201)
         .json({ message: { mesBody: "No courses found" }, mesError: true });
       next(error);
     }
@@ -65,7 +65,7 @@ courseCRUD.param("courseId", async (req, res, next, courseId) => {
     let findCourse = await Course.findById(courseId);
     if (!findCourse) {
       res
-        .status(404)
+        .status(201)
         .json({ message: { mesBody: "Course not found" }, mesError: true });
     }
     const { _id, name, description, categoryId } = findCourse;

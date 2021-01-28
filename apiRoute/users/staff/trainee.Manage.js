@@ -16,7 +16,7 @@ traineeManager.get("/", async (req, res, next) => {
     let trainerRole = await Role.findOne({ name: "trainee" });
     const allTrainees = await User.find({ roleId: trainerRole._id });
     if (!allTrainees) {
-      res.status(404).json({
+      res.status(201).json({
         message: { mesBody: "Cannot found any trainees" },
         mesError: true,
       });
@@ -52,7 +52,7 @@ traineeManager.param("userId", async (req, res, next, userId) => {
     let user = await User.findById(userId);
     if (!user) {
       res
-        .status(404)
+        .status(201)
         .json({ message: { mesBody: "User not found" }, mesError: true });
     }
     const { _id, username, password, name, roleId, traineeInfoId } = user;

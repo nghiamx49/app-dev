@@ -13,7 +13,7 @@ userRelatedCourses.get("/", async (req, res, next) => {
     });
     if (!allRelatedCourses.length) {
       res
-        .status(404)
+        .status(201)
         .json({ message: { mesBody: "No related courses" }, mesError: true });
     }
     const relatedCourses = await Promise.all(
@@ -90,6 +90,14 @@ userRelatedCourses.param(
   async (req, res, next, relatedCourseId) => {
     try {
       let relatedCourse = await RelatedCourses.findById(relatedCourseId);
+      if (!relatedCourse) {
+        res
+          .status(201)
+          .json({
+            message: { mesBody: "Related course not found" },
+            mesError: true,
+          });
+      }
       const { _id, userId, courseId } = relatedCourse;
       let course = await Course.findById(courseId[0]);
       let user = await User.findById(userId[0]);

@@ -18,7 +18,7 @@ staffCRUD.get("/", async (req, res, next) => {
     );
     res.status(200).json({ message: { staffs: staffs }, mesError: false });
   } catch (error) {
-    res.status(404).json({
+    res.status(201).json({
       message: { mesBody: "Cannot found any staffs" },
       mesError: true,
     });
@@ -68,7 +68,7 @@ staffCRUD.param("staffId", async (req, res, next, staffId) => {
     let staff = await User.findById(staffId);
     if (!staff) {
       res
-        .status(404)
+        .status(201)
         .json({ message: { mesBody: "Cannot found staff" }, mesError: true });
     }
     const { _id, username, password, name } = staff;
