@@ -47,7 +47,7 @@ traineeManager.get("/programmingoptional", async (req, res, next) => {
     next(error);
   }
 });
-trainerManager.param("userId", async (req, res, next, userId) => {
+traineeManager.param("userId", async (req, res, next, userId) => {
   try {
     let user = await User.findById(userId);
     if (!user) {
