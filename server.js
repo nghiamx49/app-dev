@@ -47,7 +47,7 @@ db.mongoose
   })
   .catch((err) => {
     console.log("error:" + err);
-    process.exit;
+    process.exit();
   });
 
 app.use(morgan("dev"));

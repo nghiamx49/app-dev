@@ -5,6 +5,7 @@ const User = db.users;
 const Role = db.roles;
 const passport = require("passport");
 const Jwt = require("jsonwebtoken");
+const { authorize } = require("passport");
 
 const signToken = (userId) => {
   return Jwt.sign(
@@ -77,6 +78,17 @@ authRoute.post(
     }
   }
 );
+
+authRoute.get("/authenticated", async (req, res, next) => {
+  try {
+    const { _id, username, roleId } = req.user;
+    res
+      .status(200)
+      .json({ isAuthenticated: true, user: { _id, username, roleId } });
+  } catch (error) {
+    res.status(500).json({ message: { mesBody: "Errors" }, mesError: true });
+  }
+});
 
 authRoute.get(
   "/logout",
