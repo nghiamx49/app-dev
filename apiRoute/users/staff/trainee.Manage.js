@@ -4,7 +4,7 @@ const db = require("../../../Migrations/db.Connection");
 const userRelatedCourses = require("../user.RelatedCourses");
 const User = db.users;
 const Role = db.roles;
-const TraineeInfo = db.trainerInfo;
+const TraineeInfo = db.traineeInfo;
 const Programming = db.programmings;
 const checkRole = require("../../../Middleware/checkRole.Middleware");
 // const passport = require("passport");
@@ -16,7 +16,7 @@ traineeManager.get("/", async (req, res, next) => {
     let trainerRole = await Role.findOne({ name: "trainee" });
     const allTrainees = await User.find({ roleId: trainerRole._id });
     if (!allTrainees) {
-      res.status(201).json({
+      res.status(404).json({
         message: { mesBody: "Cannot found any trainees" },
         mesError: true,
       });
@@ -52,11 +52,17 @@ traineeManager.param("userId", async (req, res, next, userId) => {
     let user = await User.findById(userId);
     if (!user) {
       res
-        .status(201)
+        .status(404)
         .json({ message: { mesBody: "User not found" }, mesError: true });
     }
     const { _id, username, password, name, roleId, traineeInfoId } = user;
     let userRole = await Role.findById(roleId[0]);
+    if (userRole.name !== "trainee") {
+      res.status(400).json({
+        message: { mesBody: "This user doesn't a trainee" },
+        mesError: true,
+      });
+    }
     //in case user role is trainer
     let additionInfo = await TraineeInfo.findById(traineeInfoId[0]);
     const {
@@ -96,7 +102,7 @@ traineeManager.param("userId", async (req, res, next, userId) => {
 });
 
 //get all trainee profile information
-traineeManager.get("/traineeprofile/:userId", async (req, res, next) => {
+traineeManager.get("/profile/:userId", async (req, res, next) => {
   try {
     res
       .status(200)
@@ -171,20 +177,20 @@ traineeManager.put("/edit/:userId", async (req, res, next) => {
     const { _id, infoId } = req.userInfo;
     let updateProgramming = await Programming.find({ name: programming });
     let traineeInfo = await TraineeInfo.findById(infoId);
-    trainerInfo.email = email || "";
-    trainerInfo.educatation = educatation || "";
-    trainerInfo.age = parseInt(age) || null;
-    trainerInfo.programming = updateProgramming || "";
+    traineeInfo.email = email || "";
+    traineeInfo.educatation = educatation || "";
+    traineeInfo.age = parseInt(age) || null;
+    traineeInfo.programming = updateProgramming || "";
     traineeInfo.TOEICScore = parseInt(TOEICScore) || null;
     traineeInfo.experienceDetails = experienceDetails || "";
     traineeInfo.department = department || "";
     traineeInfo.dateOfBirth = dateOfBirth || "";
     await traineeInfo.save();
     let trainee = await User.findById(_id);
-    trainer.username = username;
-    trainer.password = password;
-    trainer.name = name || "";
-    trainer.traineeInfoId = traineeInfo;
+    trainee.username = username;
+    trainee.password = password;
+    trainee.name = name || "";
+    trainee.traineeInfoId = traineeInfo;
     await trainee.save();
     res.status(200).json({
       message: { mesBody: "Edit trainee profile sucessfully" },
@@ -211,9 +217,6 @@ traineeManager.delete("/delete/:userId", async (req, res, next) => {
   }
 });
 
-traineeManager.use(
-  "/traineeprofile/:userId/relatedcourses",
-  userRelatedCourses
-);
+traineeManager.use("/profile/:userId/relatedcourses", userRelatedCourses);
 
 module.exports = traineeManager;

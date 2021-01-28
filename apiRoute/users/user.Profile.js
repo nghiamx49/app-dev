@@ -10,12 +10,13 @@ userProfile.param("userId", async (req, res, next, userId) => {
     let user = await User.findById(userId);
     if (!user) {
       res
-        .status(201)
+        .status(404)
         .json({ message: { mesBody: "User not found" }, mesError: true });
     }
-    const { username, password, name, roleId } = user;
+    const { _id, username, password, name, roleId } = user;
     let role = await Role.findById(user.roleId);
     req.userInfo = {
+      _id,
       username,
       password,
       name,
@@ -51,6 +52,6 @@ userProfile.post("/:userId", async (req, res, next) => {
   }
 });
 
-userProfile.get("/:userId/relatedcourses", userRelatedCourses);
+userProfile.use("/:userId/relatedcourses", userRelatedCourses);
 
 module.exports = userProfile;

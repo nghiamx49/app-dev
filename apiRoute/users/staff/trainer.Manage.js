@@ -16,7 +16,7 @@ trainerManager.get("/", async (req, res, next) => {
     let trainerRole = await Role.findOne({ name: "trainer" });
     const allTrainers = await User.find({ roleId: trainerRole._id });
     if (!allTrainers) {
-      res.status(201).json({
+      res.status(404).json({
         message: { mesBody: "Cannot found any trainers" },
         mesError: true,
       });
@@ -40,11 +40,17 @@ trainerManager.param("userId", async (req, res, next, userId) => {
     let user = await User.findById(userId);
     if (!user) {
       res
-        .status(201)
+        .status(404)
         .json({ message: { mesBody: "User not found" }, mesError: true });
     }
     const { _id, username, password, name, roleId, trainerInfoId } = user;
     let userRole = await Role.findById(roleId[0]);
+    if (userRole.name !== "trainer") {
+      res.status(400).json({
+        message: { mesBody: "This user doesn't a trainer" },
+        mesError: true,
+      });
+    }
     //in case user role is trainer
     let additionInfo = await TrainerInfo.findById(trainerInfoId[0]);
     const { typeId } = additionInfo;
@@ -74,7 +80,7 @@ trainerManager.param("userId", async (req, res, next, userId) => {
 });
 
 //get all trainer profile information
-trainerManager.get("/trainerprofile/:userId", async (req, res, next) => {
+trainerManager.get("/profile/:userId", async (req, res, next) => {
   try {
     res
       .status(200)
@@ -97,7 +103,7 @@ trainerManager.get("/typeoptional", async (req, res, next) => {
 });
 
 //can use to add/edit/remove info
-trainerManager.put("/trainerprofile/:userId", async (req, res, next) => {
+trainerManager.put("/profile/:userId", async (req, res, next) => {
   try {
     const {
       username,
@@ -132,9 +138,6 @@ trainerManager.put("/trainerprofile/:userId", async (req, res, next) => {
   }
 });
 
-trainerManager.use(
-  "/trainerprofile/:userId/relatedcourses",
-  userRelatedCourses
-);
+trainerManager.use("/profile/:userId/relatedcourses", userRelatedCourses);
 
 module.exports = trainerManager;

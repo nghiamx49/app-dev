@@ -14,7 +14,7 @@ categoryCRUD.get("/", async (req, res, next) => {
     let categories = await Category.find({});
     if (!categories.length) {
       res
-        .status(201)
+        .status(404)
         .json({ message: { mesBody: "Categories found" }, mesError: true });
       next(error);
     }
@@ -52,7 +52,7 @@ categoryCRUD.param("categoryId", async (req, res, next, categoryId) => {
     let category = await Category.findById(categoryId);
     if (!category) {
       res
-        .status(201)
+        .status(404)
         .json({ message: { mesBody: "Category not found" }, mesError: true });
     }
     const { _id, name, description } = category;

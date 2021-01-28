@@ -4,22 +4,22 @@ const checkRole = require("../../Middleware/checkRole.Middleware");
 const Course = db.courses;
 const User = db.users;
 const RelatedCourses = db.relatedCourses;
+const Role = db.roles;
 
 //get all courses that related to the user, allow all roles
 userRelatedCourses.get("/", async (req, res, next) => {
   try {
     let allRelatedCourses = await RelatedCourses.find({
-      userId: req.userInfo._id,
+      userId: req.params.userId,
     });
     if (!allRelatedCourses.length) {
       res
-        .status(201)
+        .status(404)
         .json({ message: { mesBody: "No related courses" }, mesError: true });
     }
     const relatedCourses = await Promise.all(
       allRelatedCourses.map(async (relatedCourse) => {
         const { _id, courseId, userId } = relatedCourse;
-        console.log(relatedCourse.courseId);
         const user = await User.findById(userId[0]);
         const course = await Course.findById(courseId[0]);
         let obj = {
@@ -69,6 +69,13 @@ userRelatedCourses.post(
       const { username, course } = req.body;
       let courseId = await Course.findOne({ name: course });
       let userId = await User.findOne({ username: username });
+      let checkUserRole = await Role.findById(userId.roleId);
+      if (checkUserRole.name === "admin" || checkUserRole.name === "staff") {
+        res.status(400).json({
+          message: { mesBody: "Cannot assign course to admin/staff account" },
+          mesError: true,
+        });
+      }
       let relatedCourse = await new RelatedCourses({
         courseId,
         userId,
@@ -91,12 +98,10 @@ userRelatedCourses.param(
     try {
       let relatedCourse = await RelatedCourses.findById(relatedCourseId);
       if (!relatedCourse) {
-        res
-          .status(201)
-          .json({
-            message: { mesBody: "Related course not found" },
-            mesError: true,
-          });
+        res.status(404).json({
+          message: { mesBody: "Related course not found" },
+          mesError: true,
+        });
       }
       const { _id, userId, courseId } = relatedCourse;
       let course = await Course.findById(courseId[0]);
