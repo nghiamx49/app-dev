@@ -8,7 +8,6 @@ const Role = db.roles;
 const TrainerInfo = db.traineeInfo;
 const TraineeInfo = db.traineeInfo;
 const Type = db.trainerTypes;
-const userProfile = require("./user.Profile");
 const trainerManager = require("./staff/trainer.Manage");
 const traineeManager = require("./staff/trainee.Manage");
 const courseCRUD = require("./courses.CRUD");
@@ -19,7 +18,6 @@ userRoute.use(passport.authenticate("jwt", { session: false }));
 
 userRoute.use("/courses", courseCRUD);
 //all any user can se their own profile and related courses
-userRoute.use("/profile", userProfile);
 userRoute.use("/categories", categoryCRUD);
 //manage trainer profile and related courses by staff role
 userRoute.use("/trainers", trainerManager);

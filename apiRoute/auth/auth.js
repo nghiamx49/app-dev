@@ -69,7 +69,7 @@ authRoute.post(
       });
       res
         .status(200)
-        .json({ isAuthenticated: true, user: { username, roleId } });
+        .json({ isAuthenticated: true, user: { _id, username, roleId } });
     } else {
       res
         .status(401)

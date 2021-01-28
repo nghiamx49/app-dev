@@ -11,6 +11,7 @@ const db = require("./Migrations/db.Connection");
 const authRoute = require("./apiRoute/auth/auth");
 const passport = require("passport");
 const userRoute = require("./apiRoute/users/user.Api");
+const userProfile = require("./apiRoute/users/user.Profile");
 // const swaggerUi = require("swagger-ui-express");
 // const swaggerDoc = require("swagger-jsdoc");
 
@@ -60,6 +61,7 @@ app.use(errorHandler());
 //routing api
 app.use("/auth", authRoute);
 app.use("/admin", adminRoute);
+app.use("/profile", userProfile);
 app.use("/home", userRoute);
 app.listen(PORT, () => {
   console.log(`sever up and run on ${PORT}`);

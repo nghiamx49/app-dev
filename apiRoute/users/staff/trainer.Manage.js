@@ -132,6 +132,9 @@ trainerManager.put("/trainerprofile/:userId", async (req, res, next) => {
   }
 });
 
-trainerManager.use("/trainerprofile/:userId/relatedcourses", userRelatedCourses);
+trainerManager.use(
+  "/trainerprofile/:userId/relatedcourses",
+  userRelatedCourses
+);
 
 module.exports = trainerManager;
