@@ -28,7 +28,7 @@ categoryCRUD.get("/", async (req, res, next) => {
   }
 });
 //create new category
-categoryCRUD.post("/create", checkRole.isStaff, async (req, res, next) => {
+categoryCRUD.post("/create", async (req, res, next) => {
   try {
     const { name, description } = req.body;
     let category = await new Category({

@@ -8,20 +8,24 @@ const Role = db.roles;
 
 staffCRUD.get("/", async (req, res, next) => {
   try {
-    let staffRole = await Role.find({ name: "staff" });
+    let staffRole = await Role.findOne({ name: "staff" });
     const allStaff = await User.find({ roleId: staffRole._id });
+    if (!allStaff.length) {
+      res.status(404).json({
+        message: { mesBody: "Cannot found any staffs" },
+        mesError: true,
+      });
+    }
     const staffs = await Promise.all(
       allStaff.map(async (staff) => {
         staff.role = "staff";
+        await staff.save();
         return staff;
       })
     );
     res.status(200).json({ message: { staffs: staffs }, mesError: false });
   } catch (error) {
-    res.status(404).json({
-      message: { mesBody: "Cannot found any staffs" },
-      mesError: true,
-    });
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);
   }
 });

@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "node test.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "Mai Xuan Nghia",
   "license": "ISC",
