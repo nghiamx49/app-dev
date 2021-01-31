@@ -4,6 +4,7 @@ const db = require("../../Migrations/db.Connection");
 const userRelatedCourses = require("./user.RelatedCourses");
 const User = db.users;
 const Role = db.roles;
+const bcrypt = require("bcryptjs");
 
 userProfile.param("userId", async (req, res, next, userId) => {
   try {
@@ -39,8 +40,15 @@ userProfile.get("/:userId", (req, res, next) => {
 userProfile.post("/:userId", async (req, res, next) => {
   try {
     const { _id } = req.userInfo;
-    const { newPassword } = req.body;
+    const { oldPassord, newPassword } = req.body;
     let user = await User.findById(_id);
+    let result = await bcrypt.compare(oldPassord, user.password);
+    if (result === false) {
+      res.status(200).json({
+        message: { mesBody: "Old password is wrong" },
+        mesError: true,
+      });
+    }
     user.password = newPassword;
     await user.save();
     res
