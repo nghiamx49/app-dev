@@ -81,7 +81,7 @@ trainerCRUD.post("/create", async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: { mesBody: "Error had occur", mesError: true } });
+      .json({ message: { mesBody: "Error had occur" }, mesError: true });
   }
 });
 
@@ -106,7 +106,7 @@ trainerCRUD.param("trainerId", async (req, res, next, trainerId) => {
       email: additionInfo.email || "",
       workingPlace: additionInfo.workingPlace || "",
       phoneNumber: additionInfo.phoneNumber || "",
-      //typeId: additionInfo.typeId[0] || "",
+      typeId: additionInfo.typeId[0] || "",
       type: trainerType.name || "",
       role: "trainer",
     };
