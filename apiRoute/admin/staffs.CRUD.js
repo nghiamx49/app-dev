@@ -3,6 +3,7 @@ const staffCRUD = express.Router();
 const db = require("../../Migrations/db.Connection");
 const User = db.users;
 const Role = db.roles;
+const bcrypt = require("bcryptjs");
 //const passport = require("passport");
 // const Jwt = require("jsonwebtoken");
 
@@ -56,13 +57,12 @@ staffCRUD.post(
             message: {
               mesBody: "Created staff account successfully",
               mesError: false,
-              role: newUser.roleId,
             },
           });
         }
       }
     } catch (error) {
-      res.status(500).json({ message: { mesBody: "Errors", mesError: true } });
+      res.status(500).json({ message: { mesBody: "Errors" }, mesError: true });
     }
   }
 );
@@ -79,7 +79,6 @@ staffCRUD.param("staffId", async (req, res, next, staffId) => {
     req.staff = {
       _id,
       username,
-      password,
       name,
       role: "staff",
     };
@@ -103,13 +102,37 @@ staffCRUD.get("/detail/:staffId", async (req, res, next) => {
   }
 });
 
+staffCRUD.put("/changepassword/:staffId", async (req, res, next) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const { _id } = req.staff;
+    let staffUpdate = await User.findById(_id);
+    let result = await bcrypt.compare(oldPassword, staffUpdate.password);
+    if (result === false) {
+      res.status(400).json({
+        message: { mesBody: "Old password is wrong" },
+        mesError: true,
+      });
+    }
+    staffUpdate.password = newPassword;
+    await staffUpdate.save();
+    res.status(200).json({
+      message: { mesBody: "Update password of chosen staff successfully" },
+      mesError: false,
+    });
+    next(error);
+  } catch (error) {
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
+    next(error);
+  }
+});
+
 staffCRUD.put("/edit/:staffId", async (req, res, next) => {
   try {
-    const { username, password, name } = req.body;
+    const { username, name } = req.body;
     const { _id } = req.staff;
     let staff = await User.findById(_id);
     staff.username = username;
-    staff.password = password;
     staff.name = name;
     await staff.save();
     res.status(200).json({

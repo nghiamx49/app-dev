@@ -5,7 +5,6 @@ const User = db.users;
 const Role = db.roles;
 const passport = require("passport");
 const Jwt = require("jsonwebtoken");
-const { authorize } = require("passport");
 
 const signToken = (userId) => {
   return Jwt.sign(
@@ -14,7 +13,7 @@ const signToken = (userId) => {
       subject: userId,
     },
     "TAM-Application",
-    { expiresIn: "3600s" }
+    { expiresIn: "86400s" }
   );
 };
 
@@ -60,17 +59,22 @@ const signToken = (userId) => {
 authRoute.post(
   "/login",
   passport.authenticate("local", { session: false }),
-  (req, res) => {
+  async (req, res) => {
     if (req.isAuthenticated()) {
       const { _id, username, roleId } = req.user;
+      const findRole = await Role.findById(roleId);
+      const role = findRole.name;
       const token = signToken(_id);
       res.cookie("access-token", token, {
         httpOnly: true,
         sameSite: true,
       });
-      res
-        .status(200)
-        .json({ isAuthenticated: true, user: { _id, username, roleId } });
+      res.status(200).json({
+        isAuthenticated: true,
+        user: { _id, username, role },
+        message: { mesBody: "login successful" },
+        mesError: false,
+      });
     } else {
       res
         .status(401)
@@ -79,16 +83,22 @@ authRoute.post(
   }
 );
 
-authRoute.get("/authenticated", async (req, res, next) => {
-  try {
-    const { _id, username, roleId } = req.user;
-    res
-      .status(200)
-      .json({ isAuthenticated: true, user: { _id, username, roleId } });
-  } catch (error) {
-    res.status(500).json({ message: { mesBody: "Errors" }, mesError: true });
+authRoute.get(
+  "/authenticated",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res, next) => {
+    try {
+      const { _id, username, roleId } = req.user;
+      let findRole = await Role.findById(roleId[0]);
+      const { name } = findRole;
+      res
+        .status(200)
+        .json({ isAuthenticated: true, user: { _id, username, role: name } });
+    } catch (error) {
+      res.status(500).json({ message: { mesBody: "Errors" }, mesError: true });
+    }
   }
-});
+);
 
 authRoute.get(
   "/logout",

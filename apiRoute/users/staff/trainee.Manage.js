@@ -112,6 +112,32 @@ traineeManager.get("/profile/:userId", async (req, res, next) => {
     next(error);
   }
 });
+
+traineeManager.put("/changepassowrd/:userid", async (req, res, next) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const { _id } = req.userInfo;
+    let userUpdate = await User.findById(_id);
+    let result = await bcrypt.compare(oldPassword, userUpdate.password);
+    if (result === false) {
+      res.status(400).json({
+        message: { mesBody: "Old password is wrong" },
+        mesError: true,
+      });
+    }
+    userUpdate.password = newPassword;
+    await userUpdate.save();
+    res.status(200).json({
+      message: { mesBody: "Update password of chosen trainee successfully" },
+      mesError: false,
+    });
+    next(error);
+  } catch (error) {
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
+    next(error);
+  }
+});
+
 //create new trainee account
 traineeManager.post("/create", async (req, res, next) => {
   try {

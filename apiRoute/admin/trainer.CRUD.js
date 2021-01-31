@@ -5,6 +5,7 @@ const User = db.users;
 const Role = db.roles;
 const TrainerInfo = db.trainerInfo;
 const Type = db.trainerTypes;
+const bcrypt = require("bcryptjs");
 // const passport = require("passport");
 // const Jwt = require("jsonwebtoken");
 
@@ -40,7 +41,7 @@ trainerCRUD.post("/create", async (req, res) => {
     workingPlace,
     phoneNumber,
     email,
-    trainerType,
+    type,
   } = req.body;
   // Create a new user
   try {
@@ -63,8 +64,8 @@ trainerCRUD.post("/create", async (req, res) => {
         phoneNumber,
       });
 
-      let type = await Type.findOne({ name: trainerType });
-      trainerInfo.typeId = type;
+      let findType = await Type.findOne({ name: type });
+      trainerInfo.typeId = findType;
       let saveTrainerInfo = await trainerInfo.save();
       newUser.trainerInfoId = saveTrainerInfo;
       let result = await newUser.save();
@@ -72,9 +73,8 @@ trainerCRUD.post("/create", async (req, res) => {
         res.status(200).json({
           message: {
             mesBody: "Created trainer account successfully",
-            mesError: false,
-            role: newUser.roleId,
           },
+          mesError: false,
         });
       }
     }
@@ -84,6 +84,7 @@ trainerCRUD.post("/create", async (req, res) => {
       .json({ message: { mesBody: "Error had occur", mesError: true } });
   }
 });
+
 //use to check parameter trainerId for get detail, update and delete
 trainerCRUD.param("trainerId", async (req, res, next, trainerId) => {
   try {
@@ -100,13 +101,12 @@ trainerCRUD.param("trainerId", async (req, res, next, trainerId) => {
     req.trainer = {
       _id,
       username,
-      password,
       name,
       infoId: additionInfo._id || "",
       email: additionInfo.email || "",
       workingPlace: additionInfo.workingPlace || "",
       phoneNumber: additionInfo.phoneNumber || "",
-      typeId: additionInfo.typeId[0] || "",
+      //typeId: additionInfo.typeId[0] || "",
       type: trainerType.name || "",
       role: "trainer",
     };
@@ -129,19 +129,37 @@ trainerCRUD.get("/detail/:trainerId", async (req, res, next) => {
   }
 });
 
+trainerCRUD.put("/changepassword/:trainerId", async (req, res, next) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    console.log(oldPassword + " " + newPassword);
+    const { _id } = req.trainer;
+    let trainerUpdate = await User.findById(_id);
+    let result = await bcrypt.compare(oldPassword, trainerUpdate.password);
+    console.log(result);
+    if (result === false) {
+      res.status(400).json({
+        message: { mesBody: "Old password is wrong" },
+        mesError: true,
+      });
+    }
+    trainerUpdate.password = newPassword;
+    await trainerUpdate.save();
+    res.status(200).json({
+      message: { mesBody: "Update password of chosen user successfully" },
+      mesError: false,
+    });
+  } catch (error) {
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
+    next(error);
+  }
+});
+
 trainerCRUD.put("/edit/:trainerId", async (req, res, next) => {
   try {
-    const {
-      username,
-      password,
-      name,
-      workingPlace,
-      phoneNumber,
-      email,
-      trainerType,
-    } = req.body;
+    const { username, name, workingPlace, phoneNumber, email, type } = req.body;
     const { _id, infoId } = req.trainer;
-    let updateType = await Type.find({ name: trainerType });
+    let updateType = await Type.find({ name: type });
     let trainerInfo = await TrainerInfo.findById(infoId);
     trainerInfo.email = email;
     trainerInfo.phoneNumber = phoneNumber;
@@ -150,12 +168,11 @@ trainerCRUD.put("/edit/:trainerId", async (req, res, next) => {
     await trainerInfo.save();
     let trainer = await User.findById(_id);
     trainer.username = username;
-    trainer.password = password;
     trainer.name = name;
     trainer.trainerInfoId = trainerInfo;
     await trainer.save();
     res.status(200).json({
-      message: { mesBody: "Edit trainer profile sucess" },
+      message: { mesBody: "Edit trainer profile sucessfully" },
       mesError: false,
     });
   } catch (error) {
