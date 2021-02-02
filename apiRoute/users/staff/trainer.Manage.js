@@ -91,31 +91,12 @@ trainerManager.get("/profile/:userId", async (req, res, next) => {
   }
 });
 
-//types optional to select
-trainerManager.get("/typeoptional", async (req, res, next) => {
-  try {
-    let types = await Type.find({});
-    res.status(200).json({ message: { types: types }, mesError: false });
-  } catch (error) {
-    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
-    next(error);
-  }
-});
-
 //can use to add/edit/remove info
 trainerManager.put("/profile/:userId", async (req, res, next) => {
   try {
-    const {
-      username,
-      password,
-      name,
-      workingPlace,
-      phoneNumber,
-      email,
-      trainerType,
-    } = req.body;
+    const { username, name, workingPlace, phoneNumber, email, type } = req.body;
     const { _id, infoId } = req.userInfo;
-    let updateType = await Type.find({ name: trainerType });
+    let updateType = await Type.find({ name: type });
     let trainerInfo = await TrainerInfo.findById(infoId);
     trainerInfo.email = email || "";
     trainerInfo.phoneNumber = phoneNumber || "";
@@ -124,7 +105,6 @@ trainerManager.put("/profile/:userId", async (req, res, next) => {
     await trainerInfo.save();
     let trainer = await User.findById(_id);
     trainer.username = username;
-    trainer.password = password;
     trainer.name = name || "";
     trainer.trainerInfoId = trainerInfo;
     await trainer.save();

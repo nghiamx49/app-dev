@@ -2,6 +2,7 @@ const express = require("express");
 const traineeManager = express.Router({ mergeParams: true });
 const db = require("../../../Migrations/db.Connection");
 const userRelatedCourses = require("../user.RelatedCourses");
+const bcrypt = require("bcryptjs");
 const User = db.users;
 const Role = db.roles;
 const TraineeInfo = db.traineeInfo;
@@ -23,9 +24,17 @@ traineeManager.get("/", async (req, res, next) => {
     }
     const trainees = await Promise.all(
       allTrainees.map(async (trainee) => {
-        trainee.role = "trainee";
-        await trainee.save();
-        return trainee;
+        const { _id, username, name } = trainee;
+        let info = await TraineeInfo.findById(trainee.traineeInfoId[0]);
+        let programming = await Programming.findById(info.programmingId[0]);
+        let obj = {
+          _id,
+          username,
+          name,
+          programming: programming.name,
+          TOEICScore: info.TOEICScore,
+        };
+        return obj;
       })
     );
     res.status(200).json({ message: { trainees: trainees }, mesError: false });
@@ -113,7 +122,7 @@ traineeManager.get("/profile/:userId", async (req, res, next) => {
   }
 });
 
-traineeManager.put("/changepassowrd/:userid", async (req, res, next) => {
+traineeManager.put("/changepassword/:userId", async (req, res, next) => {
   try {
     const { oldPassword, newPassword } = req.body;
     const { _id } = req.userInfo;
@@ -152,7 +161,6 @@ traineeManager.post("/create", async (req, res, next) => {
       TOEICScore,
       experienceDetails,
       department,
-      role,
     } = req.body;
     let programmingId = await Programming.find({ name: programming });
     let traineeInfoId = await new TraineeInfo({
@@ -165,7 +173,7 @@ traineeManager.post("/create", async (req, res, next) => {
       department,
     });
     await traineeInfoId.save();
-    let roleId = await Role.find({ name: role });
+    let roleId = await Role.find({ name: "trainee" });
     let trainee = await new User({
       username,
       password,
@@ -198,7 +206,6 @@ traineeManager.put("/edit/:userId", async (req, res, next) => {
       department,
       name,
       username,
-      password,
     } = req.body;
     const { _id, infoId } = req.userInfo;
     let updateProgramming = await Programming.find({ name: programming });
@@ -214,7 +221,6 @@ traineeManager.put("/edit/:userId", async (req, res, next) => {
     await traineeInfo.save();
     let trainee = await User.findById(_id);
     trainee.username = username;
-    trainee.password = password;
     trainee.name = name || "";
     trainee.traineeInfoId = traineeInfo;
     await trainee.save();
