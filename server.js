@@ -13,7 +13,7 @@ const passport = require("passport");
 const userRoute = require("./apiRoute/users/user.Api");
 const userProfile = require("./apiRoute/users/user.Profile");
 
-app.use(express.static("build"));
+app.use(express.static("client-side/build"));
 
 //connecting to databse and initial fake data
 db.mongoose
