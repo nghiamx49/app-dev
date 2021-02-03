@@ -11,7 +11,7 @@ const checkRole = require("../../Middleware/checkRole.Middleware");
 categoryCRUD.get("/", async (req, res, next) => {
   try {
     let categories = await Category.find({});
-    if (!categories.length) {
+    if (!categories) {
       res
         .status(404)
         .json({ message: { mesBody: "Categories not found" }, mesError: true });

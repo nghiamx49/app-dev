@@ -4,6 +4,10 @@ const db = require("../../Migrations/db.Connection");
 const userRelatedCourses = require("./user.RelatedCourses");
 const User = db.users;
 const Role = db.roles;
+const TraineeInfo = db.traineeInfo;
+const TrainerInfo = db.trainerInfo;
+const Type = db.trainerTypes;
+const Programming = db.programmings;
 const bcrypt = require("bcryptjs");
 
 userProfile.param("userId", async (req, res, next, userId) => {
@@ -16,6 +20,54 @@ userProfile.param("userId", async (req, res, next, userId) => {
     }
     const { _id, username, password, name, roleId } = user;
     let role = await Role.findById(user.roleId);
+    if (role.name === "trainee") {
+      let traineeInfo = await TraineeInfo.findById(user.traineeInfoId[0]);
+      const {
+        dateOfBirth,
+        age,
+        email,
+        education,
+        programmingId,
+        TOEICScore,
+        experienceDetails,
+        department,
+      } = traineeInfo;
+      let programing = await Programming.findById(programmingId[0]);
+      req.userInfo = {
+        _id,
+        username,
+        password,
+        name,
+        roleId,
+        role: role.name || "",
+        programming: programing.name,
+        dateOfBirth,
+        age,
+        email,
+        education,
+        TOEICScore,
+        experienceDetails,
+        department,
+      };
+      next();
+    } else if (role.name == "trainer") {
+      let trainerInfo = await TrainerInfo.findById(user.trainerInfoId[0]);
+      const { workingPlace, phoneNumber, email, typeId } = trainerInfo;
+      let type = await Type.findById(typeId[0]);
+      req.userInfo = {
+        _id,
+        username,
+        password,
+        name,
+        roleId,
+        role: role.name || "",
+        workingPlace,
+        phoneNumber,
+        email,
+        type: type.name,
+      };
+      next();
+    }
     req.userInfo = {
       _id,
       username,
@@ -37,12 +89,12 @@ userProfile.get("/:userId", (req, res, next) => {
     .json({ message: { userInfo: req.userInfo }, mesError: false });
 });
 
-userProfile.post("/:userId", async (req, res, next) => {
+userProfile.put("/changepassword/:userId", async (req, res, next) => {
   try {
     const { _id } = req.userInfo;
-    const { oldPassord, newPassword } = req.body;
+    const { oldPassword, newPassword } = req.body;
     let user = await User.findById(_id);
-    let result = await bcrypt.compare(oldPassord, user.password);
+    let result = await bcrypt.compare(oldPassword, user.password);
     if (result === false) {
       res.status(200).json({
         message: { mesBody: "Old password is wrong" },
