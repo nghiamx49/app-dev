@@ -12,25 +12,8 @@ const authRoute = require("./apiRoute/auth/auth");
 const passport = require("passport");
 const userRoute = require("./apiRoute/users/user.Api");
 const userProfile = require("./apiRoute/users/user.Profile");
-// const swaggerUi = require("swagger-ui-express");
-// const swaggerDoc = require("swagger-jsdoc");
 
-// const option = {
-//   swaggerDefinition: {
-//     info: {
-//       title: "Test Api with Swagger",
-//       description: "test",
-//       contact: {
-//         name: "Mai Xuan Nghia",
-//         servers: ["https://localhost:4000"],
-//       },
-//     },
-//   },
-//   apis: ["server.js"],
-// };
-
-// const swaggerDocument = swaggerDoc(option);
-// app.use("/swagger-apis", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(express.static("build"));
 
 //connecting to databse and initial fake data
 db.mongoose
