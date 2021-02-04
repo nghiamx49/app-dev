@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/3807da0e-179a-4e33-85f8-c2850fa95e21/resourceGroups/tam-application/providers/Microsoft.Web/sites/tam-application",
+    "appService.deploySubpath": "."
+}
