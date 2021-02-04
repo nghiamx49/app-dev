@@ -12,12 +12,13 @@ const authRoute = require("./apiRoute/auth/auth");
 const passport = require("passport");
 const userRoute = require("./apiRoute/users/user.Api");
 const userProfile = require("./apiRoute/users/user.Profile");
+const path = require("path");
 
-// app.use(express.static("build"));
-// // app.get("*", (req, res) => {
-// //   res.sendFile(path.resolve(__dirname, "build", "index.html"));
-// //   console.log(req.path);
-// // });
+app.use(express.static("build"));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "build", "index.html"));
+//   console.log(req.path);
+// });
 
 //connecting to databse and initial fake data
 db.mongoose
@@ -46,10 +47,10 @@ app.use(passport.session());
 app.use(errorHandler());
 
 //routing api
-app.use("/auth", authRoute);
-app.use("/admin", adminRoute);
-app.use("/profile", userProfile);
-app.use("/home", userRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/admin", adminRoute);
+app.use("/api/profile", userProfile);
+app.use("/api/home", userRoute);
 
 app.listen(PORT, () => {
   console.log(`sever up and run on ${PORT}`);
