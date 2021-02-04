@@ -24,7 +24,7 @@ jobs:
     - name: yarn install, build, and test
       run: |
         yarn install
-        yarn run build --if-present
+        yarn start --if-present
         yarn run test --if-present
 
     - name: 'Deploy to Azure Web App'
