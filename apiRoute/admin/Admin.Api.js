@@ -19,20 +19,18 @@ adminApi.get("/systeminfo", async (req, res, next) => {
     let staffRole = await Role.findOne({ name: "staff" });
     let trainers = await User.find({ roleId: trainerRole });
     let staffs = await User.find({ roleId: staffRole });
-    res
-      .status(200)
-      .json({
-        message: { trainer: trainers.length, staff: staffs.length },
-        mesError: false,
-      });
+    res.status(200).json({
+      message: { trainer: trainers.length, staff: staffs.length },
+      mesError: false,
+    });
   } catch (error) {
     next(error);
   }
 });
 
-adminApi.use("/staff", staffCRUD);
+adminApi.use("/staffs", staffCRUD);
 
 //refer to trainerCRUD
-adminApi.use("/trainer", trainerCURD);
+adminApi.use("/trainers", trainerCURD);
 
 module.exports = adminApi;

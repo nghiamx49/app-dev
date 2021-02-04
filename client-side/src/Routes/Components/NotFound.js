@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../Context/Auth.Context";
+import { Link } from "react-router-dom";
 const Error = (props) => {
   const { user } = useContext(AuthContext);
   let location = useLocation();
@@ -11,24 +12,20 @@ const Error = (props) => {
           <div className="error-template">
             <h1>Oops!</h1>
             <h2>404 Not Found</h2>
-            <div className="error-details">This url <strong>{location.pathname}</strong> is invalid</div>
+            <div className="error-details">
+              This url <strong>{location.pathname}</strong> is invalid
+            </div>
             <div className="error-actions">
               {user.role === "admin" ? (
-                <a
-                  href="http://localhost:3000/admin"
-                  className="btn btn-primary btn-lg"
-                >
+                <Link className="btn btn-primary btn-lg" to="/admin">
                   <i className="fas fa-home"></i>
                   Take Me Home
-                </a>
+                </Link>
               ) : (
-                <a
-                  href="http://localhost:3000/home"
-                  className="btn btn-primary btn-lg"
-                >
+                <Link to="/home" className="btn btn-primary btn-lg">
                   <i className="fas fa-home"></i>
                   Take Me Home
-                </a>
+                </Link>
               )}
             </div>
           </div>

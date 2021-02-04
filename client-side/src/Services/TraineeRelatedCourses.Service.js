@@ -2,7 +2,7 @@ const TraineeRelatedCourses = {
   getAllReatedCourses: async (trainerId) => {
     try {
       let response = await fetch(
-        `/home/trainees/profile/${trainerId}/relatedcourses`
+        `http://localhost:5000/api/home/trainees/profile/${trainerId}/relatedcourses`
       );
       let data = await response.json();
       return data;
@@ -13,7 +13,7 @@ const TraineeRelatedCourses = {
   getRelatedCourseDetail: async (userId, itemId) => {
     try {
       let response = await fetch(
-        `/home/trainees/profile/${userId}/relatedcourses/detail/${itemId}`
+        `http://localhost:5000/api/home/trainees/profile/${userId}/relatedcourses/detail/${itemId}`
       );
       let data = await response.json();
       return data;
@@ -24,7 +24,7 @@ const TraineeRelatedCourses = {
   getDataSelection: async (userId) => {
     try {
       let response = await fetch(
-        `/home/trainees/profile/${userId}/relatedcourses/dataoptional`
+        `http://localhost:5000/api/home/trainees/profile/${userId}/relatedcourses/dataoptional`
       );
       let data = await response.json();
       return data;
@@ -35,7 +35,7 @@ const TraineeRelatedCourses = {
   assignNewCourse: async (userId, relatedCourse) => {
     try {
       let response = await fetch(
-        `/home/trainees/profile/${userId}/relatedcourses/assign`,
+        `http://localhost:5000/api/home/trainees/profile/${userId}/relatedcourses/assign`,
         {
           method: "POST",
           body: JSON.stringify(relatedCourse),
@@ -54,7 +54,7 @@ const TraineeRelatedCourses = {
   changeAssignedCourse: async (userId, itemId, relatedCourse) => {
     try {
       let response = await fetch(
-        `/home/trainees/profile/${userId}/relatedcourses/change/${itemId}`,
+        `http://localhost:5000/api/home/trainees/profile/${userId}/relatedcourses/change/${itemId}`,
         {
           method: "PUT",
           body: JSON.stringify(relatedCourse),
@@ -73,7 +73,7 @@ const TraineeRelatedCourses = {
   removeAssignedCourse: async (userId, itemId) => {
     try {
       let response = await fetch(
-        `/home/trainees/profile/${userId}/relatedcourses/remove/${itemId}`,
+        `http://localhost:5000/api/home/trainees/profile/${userId}/relatedcourses/remove/${itemId}`,
         {
           method: "DELETE",
           headers: {
