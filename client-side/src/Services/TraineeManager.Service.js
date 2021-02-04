@@ -1,7 +1,7 @@
 const TraineeManager = {
   getAllTrainee: async () => {
     try {
-      let response = await fetch("http://localhost:5000/api/home/trainees");
+      let response = await fetch("/home/trainees");
       let data = await response.json();
       return data;
     } catch (error) {
@@ -10,9 +10,7 @@ const TraineeManager = {
   },
   getOptional: async () => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/trainees/programmingoptional`
-      );
+      let response = await fetch(`/home/trainees/programmingoptional`);
       let data = await response.json();
       return data;
     } catch (error) {
@@ -21,9 +19,7 @@ const TraineeManager = {
   },
   getTraineeDetail: async (traineeId) => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/trainees/profile/${traineeId}`
-      );
+      let response = await fetch(`/home/trainees/profile/${traineeId}`);
       let data = await response.json();
       return data;
     } catch (error) {
@@ -32,17 +28,14 @@ const TraineeManager = {
   },
   changeTraineePassword: async (traineeId, passwordObj) => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/trainees/changepassword/${traineeId}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(passwordObj),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-        }
-      );
+      let response = await fetch(`/home/trainees/changepassword/${traineeId}`, {
+        method: "PUT",
+        body: JSON.stringify(passwordObj),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -51,17 +44,14 @@ const TraineeManager = {
   },
   createNewTrainee: async (traineeObj) => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/trainees/create`,
-        {
-          method: "POST",
-          body: JSON.stringify(traineeObj),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-        }
-      );
+      let response = await fetch(`/home/trainees/create`, {
+        method: "POST",
+        body: JSON.stringify(traineeObj),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -70,17 +60,14 @@ const TraineeManager = {
   },
   editTraineeAccount: async (traineeId, traineeObj) => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/trainees/edit/${traineeId}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(traineeObj),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-        }
-      );
+      let response = await fetch(`/home/trainees/edit/${traineeId}`, {
+        method: "PUT",
+        body: JSON.stringify(traineeObj),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -89,16 +76,13 @@ const TraineeManager = {
   },
   deleteTraineeAccount: async (traineeId) => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/trainees/delete/${traineeId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-        }
-      );
+      let response = await fetch(`/home/trainees/delete/${traineeId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+      });
       let data = await response.json();
       return data;
     } catch (error) {

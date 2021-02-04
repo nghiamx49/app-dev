@@ -1,7 +1,7 @@
 const TrainerManager = {
   getAllTrainer: async () => {
     try {
-      let reponse = await fetch("http://localhost:5000/api/home/trainers");
+      let reponse = await fetch("/home/trainers");
       let data = await reponse.json();
       return data;
     } catch (error) {
@@ -10,9 +10,7 @@ const TrainerManager = {
   },
   getTrainerDetail: async (trainerId) => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/trainers/profile/${trainerId}`
-      );
+      let response = await fetch(`/home/trainers/profile/${trainerId}`);
       let data = await response.json();
       return data;
     } catch (error) {
@@ -21,17 +19,14 @@ const TrainerManager = {
   },
   editTrainerProfile: async (trainerId, trainer) => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/trainers/profile/${trainerId}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(trainer),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-        }
-      );
+      let response = await fetch(`/home/trainers/profile/${trainerId}`, {
+        method: "PUT",
+        body: JSON.stringify(trainer),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+      });
       let data = await response.json();
       return data;
     } catch (error) {

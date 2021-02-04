@@ -1,7 +1,7 @@
 const CategoriesService = {
   getAllCategories: async () => {
     try {
-      let response = await fetch("http://localhost:5000/api/home/categories");
+      let response = await fetch("/home/categories");
       let data = await response.json();
       return data;
     } catch (error) {
@@ -10,9 +10,7 @@ const CategoriesService = {
   },
   getCategoryDetail: async (categoryId) => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/categories/detail/${categoryId}`
-      );
+      let response = await fetch(`/home/categories/detail/${categoryId}`);
       let data = await response.json();
       return data;
     } catch (error) {
@@ -21,17 +19,14 @@ const CategoriesService = {
   },
   createCategory: async (category) => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/categories/create`,
-        {
-          method: "POST",
-          body: JSON.stringify(category),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-        }
-      );
+      let response = await fetch(`/home/categories/create`, {
+        method: "POST",
+        body: JSON.stringify(category),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -40,17 +35,14 @@ const CategoriesService = {
   },
   editCategory: async (categoryId, category) => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/categories/edit/${categoryId}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(category),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-        }
-      );
+      let response = await fetch(`/home/categories/edit/${categoryId}`, {
+        method: "PUT",
+        body: JSON.stringify(category),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -59,16 +51,13 @@ const CategoriesService = {
   },
   deleteCategory: async (categoryId) => {
     try {
-      let response = await fetch(
-        `http://localhost:5000/api/home/categories/delete/${categoryId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-        }
-      );
+      let response = await fetch(`/home/categories/delete/${categoryId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+      });
       let data = await response.json();
       return data;
     } catch (error) {
