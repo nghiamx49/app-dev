@@ -32,5 +32,5 @@ jobs:
       with:
         app-name: 'tam-application'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ae7a582ff51c4c879a4dc365ccedff9c }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_72543906dda54b0c86858f1d0e408059 }}
         package: .
