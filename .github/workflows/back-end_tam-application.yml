@@ -21,11 +21,11 @@ jobs:
       with:
         node-version: '14.x'
 
-    - name: yarn install, build, and test
+    - name: yarn install, and run
       run: |
+        npm install -g yarn
         yarn install
         yarn start --if-present
-        yarn run test --if-present
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
