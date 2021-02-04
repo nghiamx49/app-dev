@@ -53,8 +53,7 @@ const Trainer = (props) => {
   };
 
   const getUser = async () => {
-    let response = await fetch("/admin/trainer");
-    let data = await response.json();
+    let data = await AdminService.allTrainer();
     setTrainers(data.message.trainers);
   };
 

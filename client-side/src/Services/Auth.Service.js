@@ -1,7 +1,7 @@
 const AuthService = {
   login: async (user) => {
     try {
-      let response = await fetch("/auth/login", {
+      let response = await fetch("/api/auth/login", {
         method: "POST",
         body: JSON.stringify(user),
         headers: {
@@ -21,7 +21,7 @@ const AuthService = {
   },
   logout: async () => {
     try {
-      let response = await fetch("/auth/logout");
+      let response = await fetch("/api/auth/logout");
       let data = await response.json();
       return data;
     } catch (error) {
@@ -30,7 +30,7 @@ const AuthService = {
   },
   isAuthenticated: async () => {
     try {
-      let response = await fetch("/auth/authenticated");
+      let response = await fetch("/api/auth/authenticated");
       if (response.status !== 401) {
         let data = await response.json();
         return data;

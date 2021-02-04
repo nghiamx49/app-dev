@@ -1,7 +1,7 @@
 const CoursesService = {
   getAllCourses: async () => {
     try {
-      let response = await fetch("/home/courses");
+      let response = await fetch("/api/home/courses");
       let data = await response.json();
       return data;
     } catch (error) {
@@ -10,7 +10,7 @@ const CoursesService = {
   },
   getCourseDetail: async (courseId) => {
     try {
-      let response = await fetch(`/home/courses/detail/${courseId}`);
+      let response = await fetch(`/api/home/courses/detail/${courseId}`);
       let data = await response.json();
       return data;
     } catch (error) {
@@ -19,7 +19,7 @@ const CoursesService = {
   },
   createCourse: async (course) => {
     try {
-      let response = await fetch(`/home/courses/create/`, {
+      let response = await fetch(`/api/home/courses/create/`, {
         method: "POST",
         body: JSON.stringify(course),
         headers: {
@@ -35,7 +35,7 @@ const CoursesService = {
   },
   editCourse: async (courseId, course) => {
     try {
-      let response = await fetch(`/home/courses/edit/${courseId}`, {
+      let response = await fetch(`/api/home/courses/edit/${courseId}`, {
         method: "PUT",
         body: JSON.stringify(course),
         headers: {
@@ -51,7 +51,7 @@ const CoursesService = {
   },
   deleteCourse: async (courseId) => {
     try {
-      let response = await fetch(`/home/courses/delete/${courseId}`, {
+      let response = await fetch(`/api/home/courses/delete/${courseId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

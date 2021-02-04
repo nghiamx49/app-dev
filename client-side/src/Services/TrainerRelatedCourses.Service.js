@@ -2,7 +2,7 @@ const TrainerRelatedCourses = {
   getAllReatedCourses: async (trainerId) => {
     try {
       let response = await fetch(
-        `/home/trainers/profile/${trainerId}/relatedcourses`
+        `/api/home/trainers/profile/${trainerId}/relatedcourses`
       );
       let data = await response.json();
       return data;
@@ -13,7 +13,7 @@ const TrainerRelatedCourses = {
   getRelatedCourseDetail: async (userId, itemId) => {
     try {
       let response = await fetch(
-        `/home/trainers/profile/${userId}/relatedcourses/detail/${itemId}`
+        `/api/home/trainers/profile/${userId}/relatedcourses/detail/${itemId}`
       );
       let data = await response.json();
       return data;
@@ -24,7 +24,7 @@ const TrainerRelatedCourses = {
   getDataSelection: async (userId) => {
     try {
       let response = await fetch(
-        `/home/trainers/profile/${userId}/relatedcourses/dataoptional`
+        `/api/home/trainers/profile/${userId}/relatedcourses/dataoptional`
       );
       let data = await response.json();
       return data;
@@ -35,7 +35,7 @@ const TrainerRelatedCourses = {
   assignNewCourse: async (userId, relatedCourse) => {
     try {
       let response = await fetch(
-        `/home/trainers/profile/${userId}/relatedcourses/assign`,
+        `/api/home/trainers/profile/${userId}/relatedcourses/assign`,
         {
           method: "POST",
           body: JSON.stringify(relatedCourse),
@@ -54,7 +54,7 @@ const TrainerRelatedCourses = {
   changeAssignedCourse: async (userId, itemId, relatedCourse) => {
     try {
       let response = await fetch(
-        `/home/trainers/profile/${userId}/relatedcourses/change/${itemId}`,
+        `/api/home/trainers/profile/${userId}/relatedcourses/change/${itemId}`,
         {
           method: "PUT",
           body: JSON.stringify(relatedCourse),
@@ -73,7 +73,7 @@ const TrainerRelatedCourses = {
   removeAssignedCourse: async (userId, itemId) => {
     try {
       let response = await fetch(
-        `/home/trainers/profile/${userId}/relatedcourses/remove/${itemId}`,
+        `/api/home/trainers/profile/${userId}/relatedcourses/remove/${itemId}`,
         {
           method: "DELETE",
           headers: {

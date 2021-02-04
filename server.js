@@ -14,9 +14,12 @@ const userRoute = require("./apiRoute/users/user.Api");
 const userProfile = require("./apiRoute/users/user.Profile");
 const path = require("path");
 
-//app.use(express.static(path.join(__dirname, "client-side", "build")));
-// app.use("/*", (req, res) => {
+app.use(express.static(path.join(__dirname, "client-side", "build")));
+// app.get("/", (req, res) => {
 //   res.sendFile(path.join(__dirname, "client-side", "build", "index.html"));
+// });
+// app.use(function (req, res, next) {
+//   res.status(404).send("Sorry can't find that!");
 // });
 
 //connecting to databse and initial fake data
@@ -46,10 +49,10 @@ app.use(passport.session());
 app.use(errorHandler());
 
 //routing api
-app.use("/auth", authRoute);
-app.use("/admin", adminRoute);
-app.use("/profile", userProfile);
-app.use("/home", userRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/admin", adminRoute);
+app.use("/api/profile", userProfile);
+app.use("/api/home", userRoute);
 
 app.listen(PORT, () => {
   console.log(`sever up and run on ${PORT}`);

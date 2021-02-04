@@ -28,9 +28,9 @@ adminApi.get("/systeminfo", async (req, res, next) => {
   }
 });
 
-adminApi.use("/staffs", staffCRUD);
+adminApi.use("/staff", staffCRUD);
 
 //refer to trainerCRUD
-adminApi.use("/trainers", trainerCURD);
+adminApi.use("/trainer", trainerCURD);
 
 module.exports = adminApi;
