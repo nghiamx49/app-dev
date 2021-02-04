@@ -5,13 +5,14 @@ const morgan = require("morgan");
 const errorHandler = require("errorhandler");
 const cookieParser = require("cookie-parser");
 const app = express();
-const PORT = 5000 || process.env.PORT;
+const PORT = process.env.PORT || 5000;
 const adminRoute = require("./apiRoute/admin/Admin.Api");
 const db = require("./Migrations/db.Connection");
 const authRoute = require("./apiRoute/auth/auth");
 const passport = require("passport");
 const userRoute = require("./apiRoute/users/user.Api");
 const userProfile = require("./apiRoute/users/user.Profile");
+const path = require("path");
 
 app.use(express.static("client-side/build"));
 
@@ -42,20 +43,11 @@ app.use(passport.session());
 app.use(errorHandler());
 
 //routing api
-app.use("/auth", authRoute);
-app.use("/admin", adminRoute);
-app.use("/profile", userProfile);
-app.use("/home", userRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/admin", adminRoute);
+app.use("/api/profile", userProfile);
+app.use("/api/home", userRoute);
+
 app.listen(PORT, () => {
   console.log(`sever up and run on ${PORT}`);
 });
-// // Routes
-// /**
-//  * @swagger
-//  * /admin/staff:
-//  *  get:
-//  *    description: Use to request all customers
-//  *    responses:
-//  *      '200':
-//  *        description: A successful response
-//  */
