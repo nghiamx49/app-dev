@@ -49,13 +49,3 @@ app.use("/home", userRoute);
 app.listen(PORT, () => {
   console.log(`sever up and run on ${PORT}`);
 });
-// // Routes
-// /**
-//  * @swagger
-//  * /admin/staff:
-//  *  get:
-//  *    description: Use to request all customers
-//  *    responses:
-//  *      '200':
-//  *        description: A successful response
-//  */
