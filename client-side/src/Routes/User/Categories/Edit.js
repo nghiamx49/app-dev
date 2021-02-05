@@ -26,7 +26,7 @@ const Edit = (props) => {
           onChange={handleChange}
         />
         <br />
-        <label className="font-weight-bold">Course Description:</label>&nbsp;
+        <label className="font-weight-bold">Category Description:</label>&nbsp;
         <input
           type="text"
           name="description"
