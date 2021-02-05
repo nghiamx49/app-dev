@@ -1,7 +1,12 @@
 const CategoriesService = {
   getAllCategories: async () => {
     try {
-      let response = await fetch("/api/home/categories");
+      let response = await fetch(
+        "http://tam-application.studio/api/home/categories",
+        {
+          credentials: "include",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -10,7 +15,12 @@ const CategoriesService = {
   },
   getCategoryDetail: async (categoryId) => {
     try {
-      let response = await fetch(`/api/home/categories/detail/${categoryId}`);
+      let response = await fetch(
+        `http://tam-application.studio/api/home/categories/detail/${categoryId}`,
+        {
+          credentials: "include",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -19,14 +29,18 @@ const CategoriesService = {
   },
   createCategory: async (category) => {
     try {
-      let response = await fetch(`/api/home/categories/create`, {
-        method: "POST",
-        body: JSON.stringify(category),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      });
+      let response = await fetch(
+        `http://tam-application.studio/api/home/categories/create`,
+        {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(category),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -35,14 +49,18 @@ const CategoriesService = {
   },
   editCategory: async (categoryId, category) => {
     try {
-      let response = await fetch(`/api/home/categories/edit/${categoryId}`, {
-        method: "PUT",
-        body: JSON.stringify(category),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      });
+      let response = await fetch(
+        `http://tam-application.studio/api/home/categories/edit/${categoryId}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          body: JSON.stringify(category),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -51,13 +69,17 @@ const CategoriesService = {
   },
   deleteCategory: async (categoryId) => {
     try {
-      let response = await fetch(`/api/home/categories/delete/${categoryId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      });
+      let response = await fetch(
+        `http://tam-application.studio/api/home/categories/delete/${categoryId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {

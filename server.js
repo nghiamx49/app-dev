@@ -14,7 +14,7 @@ const userRoute = require("./apiRoute/users/user.Api");
 const userProfile = require("./apiRoute/users/user.Profile");
 const path = require("path");
 
-app.use(express.static(path.join(__dirname, "client-side", "build")));
+//app.use(express.static(path.join(__dirname, "client-side", "build")));
 // app.get("/", (req, res) => {
 //   res.sendFile(path.join(__dirname, "client-side", "build", "index.html"));
 // });
@@ -42,7 +42,12 @@ db.mongoose
 
 app.use(morgan("dev"));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:8080",
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());

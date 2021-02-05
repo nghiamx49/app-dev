@@ -1,7 +1,9 @@
 const AdminService = {
   allTrainer: async () => {
     try {
-      let response = await fetch("/api/admin/trainer");
+      let response = await fetch("http://tam-application.studio/api/admin/trainer", {
+        credentials: "include",
+      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -10,7 +12,12 @@ const AdminService = {
   },
   trainerDetail: async (trainerId) => {
     try {
-      let response = await fetch(`/api/admin/trainer/detail/${trainerId}`);
+      let response = await fetch(
+        `http://tam-application.studio/api/admin/trainer/detail/${trainerId}`,
+        {
+          credentials: "include",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -19,14 +26,18 @@ const AdminService = {
   },
   trainerCreate: async (trainer) => {
     try {
-      let response = await fetch("/api/admin/trainer/create", {
-        method: "POST",
-        body: JSON.stringify(trainer),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      });
+      let response = await fetch(
+        "http://tam-application.studio/api/admin/trainer/create",
+        {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(trainer),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -35,14 +46,18 @@ const AdminService = {
   },
   trainerEdit: async (trainerId, trainer) => {
     try {
-      let response = await fetch(`/api/admin/trainer/edit/${trainerId}`, {
-        method: "PUT",
-        body: JSON.stringify(trainer),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      });
+      let response = await fetch(
+        `http://tam-application.studio/api/admin/trainer/edit/${trainerId}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          body: JSON.stringify(trainer),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -51,13 +66,17 @@ const AdminService = {
   },
   trainerDelete: async (trainerId) => {
     try {
-      let response = await fetch(`/api/admin/trainer/delete/${trainerId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      });
+      let response = await fetch(
+        `http://tam-application.studio/api/admin/trainer/delete/${trainerId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -67,9 +86,10 @@ const AdminService = {
   trainerChangePass: async (trainerId, changePassword) => {
     try {
       let response = await fetch(
-        `/api/admin/trainer/changepassword/${trainerId}`,
+        `http://tam-application.studio/api/admin/trainer/changepassword/${trainerId}`,
         {
           method: "PUT",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -85,7 +105,9 @@ const AdminService = {
   },
   allStaff: async () => {
     try {
-      let response = await fetch("/api/admin/staff");
+      let response = await fetch("http://tam-application.studio/api/admin/staff", {
+        credentials: "include",
+      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -94,7 +116,12 @@ const AdminService = {
   },
   staffDetail: async (staffId) => {
     try {
-      let response = await fetch(`/api/admin/staff/detail/${staffId}`);
+      let response = await fetch(
+        `http://tam-application.studio/api/admin/staff/detail/${staffId}`,
+        {
+          credentials: "include",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -103,14 +130,18 @@ const AdminService = {
   },
   staffCreate: async (staff) => {
     try {
-      let response = await fetch("/api/admin/staff/create", {
-        method: "POST",
-        body: JSON.stringify(staff),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      });
+      let response = await fetch(
+        "http://tam-application.studio/api/admin/staff/create",
+        {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(staff),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -119,14 +150,18 @@ const AdminService = {
   },
   staffEdit: async (staffId, staff) => {
     try {
-      let response = await fetch(`/api/admin/staff/edit/${staffId}`, {
-        method: "PUT",
-        body: JSON.stringify(staff),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      });
+      let response = await fetch(
+        `http://tam-application.studio/api/admin/staff/edit/${staffId}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          body: JSON.stringify(staff),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -135,13 +170,17 @@ const AdminService = {
   },
   staffDelete: async (staffId) => {
     try {
-      let response = await fetch(`/api/admin/staff/delete/${staffId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      });
+      let response = await fetch(
+        `http://tam-application.studio/api/admin/staff/delete/${staffId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -150,14 +189,18 @@ const AdminService = {
   },
   staffChangePass: async (staffId, passwordObj) => {
     try {
-      let response = await fetch(`/api/admin/staff/changepassword/${staffId}`, {
-        method: "PUT",
-        body: JSON.stringify(passwordObj),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      });
+      let response = await fetch(
+        `http://tam-application.studio/api/admin/staff/changepassword/${staffId}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          body: JSON.stringify(passwordObj),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {

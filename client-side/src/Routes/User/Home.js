@@ -11,7 +11,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     setRole(user.role);
-  }, []);
+  }, [user.role]);
 
   return (
     <>

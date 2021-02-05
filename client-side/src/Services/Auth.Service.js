@@ -1,8 +1,9 @@
 const AuthService = {
   login: async (user) => {
     try {
-      let response = await fetch("/api/auth/login", {
+      let response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
+        credentials: "include",
         body: JSON.stringify(user),
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +22,9 @@ const AuthService = {
   },
   logout: async () => {
     try {
-      let response = await fetch("/api/auth/logout");
+      let response = await fetch("http://localhost:5000/api/auth/logout", {
+        credentials: "include",
+      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -30,7 +33,12 @@ const AuthService = {
   },
   isAuthenticated: async () => {
     try {
-      let response = await fetch("/api/auth/authenticated");
+      let response = await fetch(
+        "http://localhost:5000/api/auth/authenticated",
+        {
+          credentials: "include",
+        }
+      );
       if (response.status !== 401) {
         let data = await response.json();
         return data;

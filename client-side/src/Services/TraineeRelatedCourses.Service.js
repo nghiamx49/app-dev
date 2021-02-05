@@ -2,7 +2,10 @@ const TraineeRelatedCourses = {
   getAllReatedCourses: async (trainerId) => {
     try {
       let response = await fetch(
-        `/api/home/trainees/profile/${trainerId}/relatedcourses`
+        `http://tam-application.studio/api/home/trainees/profile/${trainerId}/relatedcourses`,
+        {
+          credentials: "include",
+        }
       );
       let data = await response.json();
       return data;
@@ -13,7 +16,10 @@ const TraineeRelatedCourses = {
   getRelatedCourseDetail: async (userId, itemId) => {
     try {
       let response = await fetch(
-        `/api/home/trainees/profile/${userId}/relatedcourses/detail/${itemId}`
+        `http://tam-application.studio/api/home/trainees/profile/${userId}/relatedcourses/detail/${itemId}`,
+        {
+          credentials: "include",
+        }
       );
       let data = await response.json();
       return data;
@@ -24,7 +30,10 @@ const TraineeRelatedCourses = {
   getDataSelection: async (userId) => {
     try {
       let response = await fetch(
-        `/api/home/trainees/profile/${userId}/relatedcourses/dataoptional`
+        `http://tam-application.studio/api/home/trainees/profile/${userId}/relatedcourses/dataoptional`,
+        {
+          credentials: "include",
+        }
       );
       let data = await response.json();
       return data;
@@ -35,8 +44,9 @@ const TraineeRelatedCourses = {
   assignNewCourse: async (userId, relatedCourse) => {
     try {
       let response = await fetch(
-        `/api/home/trainees/profile/${userId}/relatedcourses/assign`,
+        `http://tam-application.studio/api/home/trainees/profile/${userId}/relatedcourses/assign`,
         {
+          credentials: "include",
           method: "POST",
           body: JSON.stringify(relatedCourse),
           headers: {
@@ -54,8 +64,9 @@ const TraineeRelatedCourses = {
   changeAssignedCourse: async (userId, itemId, relatedCourse) => {
     try {
       let response = await fetch(
-        `/api/home/trainees/profile/${userId}/relatedcourses/change/${itemId}`,
+        `http://tam-application.studio/api/home/trainees/profile/${userId}/relatedcourses/change/${itemId}`,
         {
+          credentials: "include",
           method: "PUT",
           body: JSON.stringify(relatedCourse),
           headers: {
@@ -73,8 +84,9 @@ const TraineeRelatedCourses = {
   removeAssignedCourse: async (userId, itemId) => {
     try {
       let response = await fetch(
-        `/api/home/trainees/profile/${userId}/relatedcourses/remove/${itemId}`,
+        `http://tam-application.studio/api/home/trainees/profile/${userId}/relatedcourses/remove/${itemId}`,
         {
+          credentials: "include",
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

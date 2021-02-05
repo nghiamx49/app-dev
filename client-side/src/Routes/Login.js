@@ -63,17 +63,17 @@ const Login = (props) => {
               <div className="row px-3 justify-content-center mt-4 mb-5 border-line">
                 <img
                   src="https://i.imgur.com/uNGdWHi.png"
-                  alt="image"
-                  class="image"
+                  alt="background image"
+                  className="image"
                 />
               </div>
             </div>
           </div>
           <div className="col-lg-6">
-            <div class="card2 card border-0 px-4 py-5">
+            <div className="card2 card border-0 px-4 py-5">
               <h3 className="text-center text-dark">TAM Application</h3>
               <div className="row px-3 mb-4">
-                <div className="line"></div> <div class="line"></div>
+                <div className="line"></div> <div className="line"></div>
               </div>
               <div className="row px-3">
                 {" "}
@@ -107,13 +107,16 @@ const Login = (props) => {
                     id="chk1"
                     type="checkbox"
                     name="chk"
-                    class="custom-control-input"
+                    className="custom-control-input"
                   />{" "}
                 </div>{" "}
               </div>
               <div className="row mb-3 px-3">
                 {" "}
-                <button onClick={handleLogin} class="btn btn-blue text-center">
+                <button
+                  onClick={handleLogin}
+                  className="btn btn-blue text-center"
+                >
                   Login
                 </button>{" "}
               </div>

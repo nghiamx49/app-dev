@@ -27,7 +27,7 @@ const NavBar = (props) => {
 
   useEffect(() => {
     getDetail();
-  }, []);
+  }, [user._id]);
 
   const handleDetailOpen = async () => {
     setDetailShow(true);

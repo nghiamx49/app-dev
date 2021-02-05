@@ -59,7 +59,7 @@ const signToken = (userId) => {
 authRoute.post(
   "/login",
   passport.authenticate("local", { session: false }),
-  async (req, res) => {
+  async (req, res, next) => {
     if (req.isAuthenticated()) {
       const { _id, username, roleId } = req.user;
       const findRole = await Role.findById(roleId);
@@ -67,7 +67,6 @@ authRoute.post(
       const token = signToken(_id);
       res.cookie("access-token", token, {
         httpOnly: true,
-        sameSite: true,
       });
       res.status(200).json({
         isAuthenticated: true,
@@ -75,6 +74,7 @@ authRoute.post(
         message: { mesBody: "login successful" },
         mesError: false,
       });
+      next();
     } else {
       res
         .status(401)
