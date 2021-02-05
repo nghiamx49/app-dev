@@ -35,7 +35,8 @@ staffCRUD.post(
       let user = await User.findOne({ username });
       if (user) {
         res.status(400).json({
-          message: { mesBody: "Username had already taken", mesError: true },
+          message: { mesBody: "Username had already taken" },
+          mesError: true,
         });
       } else {
         const newUser = new User({
@@ -50,8 +51,8 @@ staffCRUD.post(
           res.status(200).json({
             message: {
               mesBody: "Created staff account successfully",
-              mesError: false,
             },
+            mesError: false,
           });
         }
       }

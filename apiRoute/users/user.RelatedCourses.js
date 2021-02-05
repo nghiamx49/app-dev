@@ -57,6 +57,25 @@ userRelatedCourses.get(
     }
   }
 );
+
+userRelatedCourses.get("/currentinfo", async (req, res, next) => {
+  try {
+    let courses = await Course.find({});
+    let relatedCourses = await RelatedCourses.find({
+      userId: req.params.userId,
+    });
+    res.status(200).json({
+      message: {
+        courses: courses.length,
+        relatedCourses: relatedCourses.length,
+      },
+      mesError: false,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 //assgin courses to trainers
 userRelatedCourses.post(
   "/assign",

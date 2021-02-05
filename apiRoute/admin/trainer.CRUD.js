@@ -42,7 +42,8 @@ trainerCRUD.post("/create", async (req, res) => {
     let user = await User.findOne({ username });
     if (user) {
       res.status(400).json({
-        message: { mesBody: "Username had already taken", mesError: true },
+        message: { mesBody: "Username had already taken" },
+        mesError: true,
       });
     } else {
       const newUser = new User({
