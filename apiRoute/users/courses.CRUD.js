@@ -5,6 +5,7 @@ const passport = require("passport");
 const passportConf = require("../../Middleware/Auth.Middleware");
 const Course = db.courses;
 const Category = db.categories;
+const RelatedCourses = db.relatedCourses;
 const checkRole = require("../../Middleware/checkRole.Middleware");
 
 //allow all roles can access to get all courses available in system
@@ -113,6 +114,7 @@ courseCRUD.delete(
   async (req, res, next) => {
     try {
       const { _id } = req.course;
+      await RelatedCourses.deleteMany({ courseId: _id });
       await Course.deleteOne({ _id });
       res.status(200).json({
         message: { mesBody: "Delete course successfully" },

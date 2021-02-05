@@ -17,7 +17,7 @@ const Dashboard = () => {
       let data = await SystemInfo.forStaff();
       setSystemInfo(data.message);
     } else if (user.role === "trainee" || user.role === "trainer") {
-      let data = SystemInfo.forUser(user._id);
+      let data = await SystemInfo.forUser(user._id);
       setSystemInfo(data.message);
     } else {
       return;
@@ -38,7 +38,8 @@ const Dashboard = () => {
                       <Card.Title>Trainer</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
                       <Card.Text>
-                        Number of Trainer in system:{systemInfo.trainers};
+                        Number of Trainer in system:{" "}
+                        <strong>{systemInfo.trainers}</strong>
                       </Card.Text>
                       <Link to="/home/trainer">
                         <div className="btn btn-primary">View All Trainer</div>
@@ -52,7 +53,8 @@ const Dashboard = () => {
                       <Card.Title>Trainee</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
                       <Card.Text>
-                        Number of Trainee in system:{systemInfo.trainees};
+                        Number of Trainee in system:
+                        <strong>{systemInfo.trainees}</strong>
                       </Card.Text>
                       <Link to="/home/trainee">
                         <div className="btn btn-primary">View All Trainee</div>
@@ -69,7 +71,8 @@ const Dashboard = () => {
                       <Card.Title>Courses</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
                       <Card.Text>
-                        Number of Courses in system:{systemInfo.courses};
+                        Number of Courses in system:{" "}
+                        <strong>{systemInfo.courses}</strong>
                       </Card.Text>
                       <Link to="/home/courses">
                         <div className="btn btn-primary">View All Courses</div>
@@ -83,7 +86,8 @@ const Dashboard = () => {
                       <Card.Title>Categories</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
                       <Card.Text>
-                        Number of Categories in system:{systemInfo.categories};
+                        Number of Categories in system:
+                        <strong>{systemInfo.cateogries}</strong>
                       </Card.Text>
                       <Link to="/home/categories">
                         <div className="btn btn-primary">
@@ -110,7 +114,8 @@ const Dashboard = () => {
                       <Card.Title>Courses</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
                       <Card.Text>
-                        Number of Courses in system:{systemInfo.courses};
+                        Number of Courses in system:{" "}
+                        <strong>{systemInfo.courses}</strong>
                       </Card.Text>
                       {user.role === "trainee" && (
                         <Link to="/home/courses">

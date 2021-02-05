@@ -4,6 +4,8 @@ const db = require("../../Migrations/db.Connection");
 const passport = require("passport");
 const passportConf = require("../../Middleware/Auth.Middleware");
 const Category = db.categories;
+const Course = db.courses;
+const RelatedCourses = db.relatedCourses;
 const checkRole = require("../../Middleware/checkRole.Middleware");
 
 //allow only staff have permission in this route
@@ -107,6 +109,13 @@ categoryCRUD.delete(
   async (req, res, next) => {
     try {
       const { _id } = req.category;
+      let allCourses = await Course.find({ categoryId: _id });
+      await Promise.all(
+        allCourses.map(async (course) => {
+          await RelatedCourses.deleteMany({ courseId: course._id });
+        })
+      );
+      await Course.deleteMany({ categoryId: _id });
       await Category.deleteOne({ _id });
       res.status(200).json({
         message: { mesBody: "Delete category successfully" },

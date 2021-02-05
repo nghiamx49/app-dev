@@ -33,7 +33,7 @@ db.mongoose
   )
   .then(() => {
     console.log("Connect to databse success");
-    //db.initialize();
+    db.initialize();
   })
   .catch((err) => {
     console.log("error:" + err);

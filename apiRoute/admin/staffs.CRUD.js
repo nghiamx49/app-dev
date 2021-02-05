@@ -11,6 +11,9 @@ staffCRUD.get("/", async (req, res, next) => {
   try {
     let staffRole = await Role.findOne({ name: "staff" });
     const allStaff = await User.find({ roleId: staffRole._id });
+    if (allStaff.length === 0) {
+      res.status(200).json({ message: { staffs: [] }, mesError: false });
+    }
     const staffs = await Promise.all(
       allStaff.map(async (staff) => {
         staff.role = "staff";

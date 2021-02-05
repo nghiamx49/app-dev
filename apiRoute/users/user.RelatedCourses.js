@@ -18,6 +18,7 @@ userRelatedCourses.get("/", async (req, res, next) => {
         const { _id, courseId, userId } = relatedCourse;
         const user = await User.findById(userId[0]);
         const course = await Course.findById(courseId[0]);
+        console.log(course);
         const category = await Category.findById(course.categoryId[0]);
         let obj = {
           _id,
@@ -30,9 +31,10 @@ userRelatedCourses.get("/", async (req, res, next) => {
         return obj;
       })
     );
-    res
-      .status(200)
-      .json({ message: { relatedCourses: relatedCourses }, mesError: false });
+    res.status(200).json({
+      message: { relatedCourses: relatedCourses || [] },
+      mesError: false,
+    });
   } catch (error) {
     res.status(500).json({ message: { mesBody: "Errors" }, mesError: true });
     next(error);
