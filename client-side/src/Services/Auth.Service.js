@@ -1,15 +1,18 @@
 const AuthService = {
   login: async (user) => {
     try {
-      let response = await fetch("http://tam-application/api/auth/login", {
-        method: "POST",
-        credentials: "include",
-        body: JSON.stringify(user),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      });
+      let response = await fetch(
+        "http://tam-application.studio/api/auth/login",
+        {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(user),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+        }
+      );
       if (response.status !== 401) {
         let data = await response.json();
         return data;
@@ -22,9 +25,12 @@ const AuthService = {
   },
   logout: async () => {
     try {
-      let response = await fetch("http://tam-application/api/auth/logout", {
-        credentials: "include",
-      });
+      let response = await fetch(
+        "http://tam-application.studio/api/auth/logout",
+        {
+          credentials: "include",
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -34,7 +40,7 @@ const AuthService = {
   isAuthenticated: async () => {
     try {
       let response = await fetch(
-        "http://tam-application/api/auth/authenticated",
+        "http://tam-application.studio/api/auth/authenticated",
         {
           credentials: "include",
         }
