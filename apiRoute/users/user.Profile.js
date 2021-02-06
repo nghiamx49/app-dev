@@ -87,6 +87,7 @@ userProfile.get("/:userId", (req, res, next) => {
   res
     .status(200)
     .json({ message: { userInfo: req.userInfo }, mesError: false });
+    next();
 });
 
 userProfile.put("/changepassword/:userId", async (req, res, next) => {

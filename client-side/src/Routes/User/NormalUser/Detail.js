@@ -10,9 +10,9 @@ const Detail = (props) => {
         <Modal.Title>Detail</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <label className="font-weight-bold">Username:</label>&nbsp;
+        {/* <label className="font-weight-bold">Username:</label>&nbsp;
         {item.username}
-        <br />
+        <br /> */}
         <label className="font-weight-bold">Couse Name:</label>&nbsp;
         {item.courseName}
         <br />

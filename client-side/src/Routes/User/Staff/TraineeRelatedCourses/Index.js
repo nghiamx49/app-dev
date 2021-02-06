@@ -26,8 +26,6 @@ const RelatedCourses = (props) => {
   });
   const [courses, setCourses] = useState([]);
 
-  console.log(newItem);
-
   //HANDLE DETAIL ACTION
   const handleDetailOpen = async (itemId) => {
     await getDetail(itemId);

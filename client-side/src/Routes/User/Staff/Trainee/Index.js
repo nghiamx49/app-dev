@@ -46,6 +46,7 @@ const Trainer = (props) => {
 
   const [programmings, setProgrammings] = useState([]);
   const [searchField, setSearchField] = useState(null);
+  const [searchOption, setSearchOption] = useState("username");
   //HANDLE DETAIL ACTION
   const handleDetailOpen = async (traineeId) => {
     await getDetail(traineeId);
@@ -248,9 +249,12 @@ const Trainer = (props) => {
     if (searchField === null || searchField === "") {
       return;
     }
-    let result = trainees.filter((trainer) =>
-      trainer.username.includes(searchField)
-    );
+    let result = trainees.filter((trainee) => {
+      if (searchOption === "TOEICScore") {
+        return trainee[searchOption].toString().includes(searchField);
+      }
+      return trainee[searchOption].includes(searchField);
+    });
     setTrainees(result);
   };
   const handleRefresh = () => {
@@ -260,6 +264,11 @@ const Trainer = (props) => {
   const getProgramming = async () => {
     let data = await TraineeManagerService.getOptional();
     setProgrammings(data.message.programmings);
+  };
+
+  const handleOption = (e) => {
+    e.preventDefault();
+    setSearchOption(e.target.value);
   };
 
   useEffect(() => {
@@ -283,6 +292,18 @@ const Trainer = (props) => {
                 onChange={handleSearchFiled}
                 placeholder="search"
               />
+            </div>
+            &nbsp;
+            <div>
+              <select
+                className="form-control"
+                onChange={handleOption}
+                defaultValue="username"
+              >
+                <option value="username">Username</option>
+                <option value="TOEICScore">TOEIC Score</option>
+                <option value="programming">Programming Language</option>
+              </select>
             </div>
             &nbsp;
             <button

@@ -16,10 +16,9 @@ userRelatedCourses.get("/", async (req, res, next) => {
     const relatedCourses = await Promise.all(
       allRelatedCourses.map(async (relatedCourse) => {
         const { _id, courseId, userId } = relatedCourse;
-        const user = await User.findById(userId[0]);
-        const course = await Course.findById(courseId[0]);
-        console.log(course);
-        const category = await Category.findById(course.categoryId[0]);
+        const user = await User.findById(userId);
+        const course = await Course.findById(courseId);
+        const category = await Category.findById(course.categoryId);
         let obj = {
           _id,
           userId,
@@ -115,12 +114,6 @@ userRelatedCourses.param(
   async (req, res, next, relatedCourseId) => {
     try {
       let relatedCourse = await RelatedCourses.findById(relatedCourseId);
-      if (!relatedCourse) {
-        res.status(404).json({
-          message: { mesBody: "Related course not found" },
-          mesError: true,
-        });
-      }
       const { _id, userId, courseId } = relatedCourse;
       let course = await Course.findById(courseId[0]);
       let category = await Category.findById(course.categoryId[0]);
@@ -134,7 +127,7 @@ userRelatedCourses.param(
         courseDescription: course.description || "",
         categoryName: category.name || "",
       };
-      next();
+      await next();
     } catch (error) {
       res.status(500).json({ message: { mesBody: "Errors" }, mesError: true });
       next(error);

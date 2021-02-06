@@ -28,7 +28,6 @@ const Category = (props) => {
     description: "",
   });
   const [searchField, setSearchField] = useState(null);
-  console.log(newItem);
   //HANDLE DETAIL ACTION
   const handleDetailOpen = async (itemId) => {
     await getDetail(itemId);

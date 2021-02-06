@@ -12,14 +12,18 @@ const Dashboard = () => {
   const [systemInfo, setSystemInfo] = useState({});
   const [role, setRole] = useState(null);
 
-  const getSystemInfo = async () => {
-    let data = await SystemInfo.forAdmin();
-    setSystemInfo(data.message);
+  const getSystemInfo = async (isSub) => {
+    if (isSub) {
+      let data = await SystemInfo.forAdmin();
+      setSystemInfo(data.message);
+    }
   };
 
   useEffect(() => {
-    getSystemInfo();
+    let isSub = true;
+    getSystemInfo(isSub);
     setRole(user.role);
+    return (isSub = false);
   }, [user.role]);
 
   return (
@@ -35,7 +39,8 @@ const Dashboard = () => {
                   <Card.Title>Trainer</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
                   <Card.Text>
-                    Number of Trainer in system:{systemInfo.trainer};
+                    Number of Trainer in system:{" "}
+                    <strong>{systemInfo.trainer}</strong>
                   </Card.Text>
                   <Link to="/admin/trainer">
                     <div className="btn btn-primary">View All Trainer</div>
@@ -49,7 +54,8 @@ const Dashboard = () => {
                   <Card.Title>Staff</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
                   <Card.Text>
-                    Number of Staff in system:{systemInfo.staff};
+                    Number of Staff in system:{" "}
+                    <strong>{systemInfo.staff}</strong>
                   </Card.Text>
                   <Link to="/admin/staff">
                     <div className="btn btn-primary">View All Staff</div>

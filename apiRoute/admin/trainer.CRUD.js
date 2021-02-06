@@ -6,6 +6,7 @@ const Role = db.roles;
 const TrainerInfo = db.trainerInfo;
 const Type = db.trainerTypes;
 const bcrypt = require("bcryptjs");
+const RelatedCourses = db.relatedCourses;
 // const passport = require("passport");
 // const Jwt = require("jsonwebtoken");
 
@@ -179,6 +180,7 @@ trainerCRUD.put("/edit/:trainerId", async (req, res, next) => {
 trainerCRUD.delete("/delete/:trainerId", async (req, res, next) => {
   const { _id, infoId } = req.trainer;
   try {
+    await RelatedCourses.deleteMany({ userId: _id });
     await TrainerInfo.deleteOne({ _id: infoId });
     await User.deleteOne({ _id: _id });
     res.status(200).json({

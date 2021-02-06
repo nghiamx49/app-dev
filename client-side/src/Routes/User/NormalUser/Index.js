@@ -8,7 +8,7 @@ const containerStyle = {
   margin: "100px",
 };
 
-const RelatedCourses = (props) => {
+const RelatedCourses = () => {
   const { user } = useContext(AuthContext);
   const [detailShow, setDetailShow] = useState(false);
   const [items, setItems] = useState([]);
@@ -22,13 +22,21 @@ const RelatedCourses = (props) => {
 
   const handleDetailClose = () => {
     setDetailShow(false);
+    getRelatedCourses();
   };
 
   //END HANDLE DETAIL ACTION
 
   const getDetail = async (itemId) => {
-    let data = await ProfileService.getDetailOwnRelatedCourse(user._id, itemId);
-    setActiveItem(data.message.relatedCourse);
+    try {
+      let data = await ProfileService.getDetailOwnRelatedCourse(
+        user._id,
+        itemId
+      );
+      setActiveItem(data.message.relatedCourse);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   const getRelatedCourses = async () => {
@@ -81,24 +89,6 @@ const RelatedCourses = (props) => {
             })}
           </tbody>
         </table>
-        {/* <div className="row">
-          <div className="col text-center">
-            <button
-              className="btn btn-primary"
-              data-toggle="modal"
-              onClick={handleCreateOpen}
-            >
-              Create
-            </button>
-            <Create
-              show={createShow}
-              handleChange={handleCreateField}
-              handleClose={handleCreateClose}
-              handleSubmit={handleCreate}
-              message={message}
-            />
-          </div>
-        </div> */}
       </div>
       <Footer />
     </>

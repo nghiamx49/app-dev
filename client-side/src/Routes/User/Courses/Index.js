@@ -31,7 +31,6 @@ const Courses = (props) => {
     courseDescription: "",
   });
   const [searchField, setSearchField] = useState(null);
-  console.log(activeItem);
   //HANDLE DETAIL ACTION
   const handleDetailOpen = async (itemId) => {
     await getDetail(itemId);

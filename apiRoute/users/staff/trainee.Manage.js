@@ -7,6 +7,7 @@ const User = db.users;
 const Role = db.roles;
 const TraineeInfo = db.traineeInfo;
 const Programming = db.programmings;
+const RelatedCourses = db.relatedCourses;
 const checkRole = require("../../../Middleware/checkRole.Middleware");
 // const passport = require("passport");
 // const Jwt = require("jsonwebtoken");
@@ -237,6 +238,7 @@ traineeManager.put("/edit/:userId", async (req, res, next) => {
 traineeManager.delete("/delete/:userId", async (req, res, next) => {
   try {
     const { _id, infoId } = req.userInfo;
+    await RelatedCourses.deleteMany({ userId: _id });
     await TraineeInfo.deleteOne({ _id: infoId });
     await User.deleteOne({ _id });
     res.status(200).json({
