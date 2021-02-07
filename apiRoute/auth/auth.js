@@ -61,7 +61,7 @@ authRoute.post(
   passport.authenticate("local", { session: false }),
   async (req, res, next) => {
     if (req.isAuthenticated()) {
-      const { _id, username, roleId } = req.user;
+      const { _id, username, roleId, name } = req.user;
       const findRole = await Role.findById(roleId);
       const role = findRole.name;
       const token = signToken(_id);
@@ -70,6 +70,7 @@ authRoute.post(
       });
       res.status(200).json({
         isAuthenticated: true,
+        name,
         user: { _id, username, role },
         message: { mesBody: "login successful" },
         mesError: false,
@@ -88,12 +89,12 @@ authRoute.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
-      const { _id, username, roleId } = req.user;
+      const { _id, username, roleId, name } = req.user;
       let findRole = await Role.findById(roleId[0]);
-      const { name } = findRole;
-      res
-        .status(200)
-        .json({ isAuthenticated: true, user: { _id, username, role: name } });
+      res.status(200).json({
+        isAuthenticated: true,
+        user: { _id, username, name: name, role: findRole.name },
+      });
     } catch (error) {
       res.status(500).json({ message: { mesBody: "Errors" }, mesError: true });
     }

@@ -35,6 +35,7 @@ userProfile.param("userId", async (req, res, next, userId) => {
       let programing = await Programming.findById(programmingId[0]);
       req.userInfo = {
         _id,
+        traineeInfoId: traineeInfo._id,
         username,
         password,
         name,
@@ -56,6 +57,7 @@ userProfile.param("userId", async (req, res, next, userId) => {
       let type = await Type.findById(typeId[0]);
       req.userInfo = {
         _id,
+        traineeInfoId: trainerInfo._id,
         username,
         password,
         name,
@@ -87,7 +89,80 @@ userProfile.get("/:userId", (req, res, next) => {
   res
     .status(200)
     .json({ message: { userInfo: req.userInfo }, mesError: false });
-    next();
+  next();
+});
+
+userProfile.put("/edit/:userId", async (req, res, next) => {
+  try {
+    const { _id, role } = req.userInfo;
+    if (role === "trainee") {
+      const {
+        traineeInfoId,
+        name,
+        programming,
+        dateOfBirth,
+        age,
+        email,
+        education,
+        TOEICScore,
+        experienceDetails,
+        department,
+      } = req.body;
+      let updateUser = await User.findById(_id);
+      let updateTraineeInfo = await TraineeInfo.findById(traineeInfoId);
+      let updateProgramming = await Programming.findOne({ name: programming });
+      updateTraineeInfo.programmingId = updateProgramming;
+      updateTraineeInfo.dateOfBirth = dateOfBirth;
+      updateTraineeInfo.age = age;
+      updateTraineeInfo.email = email;
+      updateTraineeInfo.education = education;
+      updateTraineeInfo.TOEICScore = TOEICScore;
+      updateTraineeInfo.experienceDetails = experienceDetails;
+      updateTraineeInfo.department = department;
+      updateTraineeInfo.save();
+      updateUser.name = name;
+      updateUser.save();
+      res.status(200).json({
+        message: { mesBody: "Edit profile successful" },
+        mesError: false,
+      });
+    } else if (role === "trainer") {
+      const {
+        trainerInfoId,
+        name,
+        workingPlace,
+        phoneNumber,
+        email,
+        type,
+      } = req.body;
+      let updateType = await Type.findOne({ name: type });
+      let updateTrainerInfo = await TrainerInfo.findById(trainerInfoId);
+      updateTrainerInfo.workingPlace = workingPlace;
+      updateTrainerInfo.phoneNumber = phoneNumber;
+      updateTrainerInfo.email = email;
+      updateTrainerInfo.typeId = updateType;
+      let updateUser = await User.findById(_id);
+      updateUser.name = name;
+      updateTrainerInfo.save();
+      updateUser.save();
+      res.status(200).json({
+        message: { mesBody: "Edit profile successful" },
+        mesError: false,
+      });
+    } else {
+      const { name } = req.body;
+      let updateUser = await User.findById(_id);
+      updateUser.name = name;
+      await updateUser.save();
+      res.status(200).json({
+        message: { mesBody: "Edit profile successful" },
+        mesError: false,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
+    next(error);
+  }
 });
 
 userProfile.put("/changepassword/:userId", async (req, res, next) => {

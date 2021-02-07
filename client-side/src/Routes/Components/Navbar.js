@@ -2,7 +2,8 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../Context/Auth.Context";
 import AuthService from "../../Services/Auth.Service";
 import { Link } from "react-router-dom";
-import Detail from "./Navbar/Detail";
+import Edit from "./Navbar/Edit";
+import Logout from "./Navbar/Logout";
 import ChangePassword from "./Navbar/ChangePassword";
 import ProfileService from "../../Services/Profile.Service";
 
@@ -10,8 +11,9 @@ const NavBar = (props) => {
   const { isAuthenticated, user, setIsAuthenticated, setUser } = useContext(
     AuthContext
   );
-  const [detailShow, setDetailShow] = useState(false);
+  const [profileShow, setProfileShow] = useState(false);
   const [passwordShow, setPasswordShow] = useState(false);
+  const [logout, setLogout] = useState();
   const [activeItem, setActiveItem] = useState({});
   const [newPass, setNewPass] = useState({
     oldPassword: "",
@@ -25,15 +27,32 @@ const NavBar = (props) => {
     setActiveItem(data.message.userInfo);
   };
 
-  useEffect(() => {
-    getDetail();
-  }, [user._id]);
-
-  const handleDetailOpen = async () => {
-    setDetailShow(true);
+  const handleLogOutOpen = () => {
+    setLogout(true);
   };
-  const handleDetailClose = () => {
-    setDetailShow(false);
+  const handleLogOutClose = () => {
+    setLogout(false);
+  };
+
+  const handleProfileOpen = async () => {
+    await getDetail();
+    setProfileShow(true);
+  };
+  const handleProfileClose = () => {
+    setProfileShow(false);
+    setMessage(null);
+  };
+
+  const handleProfileChange = (e) => {
+    e.preventDefault();
+    setActiveItem({ ...activeItem, [e.target.name]: e.target.value });
+  };
+
+  const handleProfilesubmit = async (e) => {
+    e.preventDefault();
+    let data = await ProfileService.editProfile(user._id, activeItem);
+    const { message, mesError } = data;
+    setMessage({ mesBody: message.mesBody, mesError: mesError });
   };
 
   //HANDLE CHANGE PASSWORD
@@ -159,6 +178,10 @@ const NavBar = (props) => {
     );
   };
 
+  useEffect(() => {
+    getDetail();
+  }, [user.name]);
+
   const trainerNav = () => {
     return (
       <>
@@ -177,7 +200,7 @@ const NavBar = (props) => {
       if (res.success) {
         setUser(res.user);
         setIsAuthenticated(false);
-        alert("Logout success");
+        props.history.push("/");
       }
     } catch (error) {
       console.log(error);
@@ -218,14 +241,17 @@ const NavBar = (props) => {
           <ul className="nav navbar-nav mr-auto">{checkRole()}</ul>
           {!isAuthenticated ? null : (
             <span className="navbar-text actions">
-              <button className="btn btn-dark" onClick={handleDetailOpen}>
-                {"Hello, " + user.username}
+              <button className="btn btn-dark" onClick={handleProfileOpen}>
+                {"Hello, " + activeItem.name}
               </button>
-              <Detail
+              <Edit
                 user={activeItem}
+                handleChange={handleProfileChange}
+                handleSubmit={handleProfilesubmit}
                 role={user.role}
-                show={detailShow}
-                handleClose={handleDetailClose}
+                show={profileShow}
+                message={message}
+                handleClose={handleProfileClose}
               />
               {user.role === "admin" ? null : (
                 <>
@@ -240,21 +266,23 @@ const NavBar = (props) => {
                     show={passwordShow}
                     handleChange={handleChangePasswordField}
                     handleClose={handleChangepasswordClose}
-                    handleSubmit={() => handleChangePassword()}
                     message={message}
+                    handleSubmit={() => handleChangePassword()}
                   />
                 </>
               )}
               &nbsp; &nbsp;
-              <Link to="/">
-                <div
-                  className="btn btn-dark action-button"
-                  role="button"
-                  onClick={logoutHandle}
-                >
-                  Logout
-                </div>
-              </Link>
+              <button
+                className="btn btn-dark action-button"
+                onClick={handleLogOutOpen}
+              >
+                Logout
+              </button>
+              <Logout
+                show={logout}
+                handleClose={handleLogOutClose}
+                handleSubmit={logoutHandle}
+              />
             </span>
           )}
         </div>

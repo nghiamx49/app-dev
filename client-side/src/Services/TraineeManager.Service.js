@@ -2,7 +2,7 @@ const TraineeManager = {
   getAllTrainee: async () => {
     try {
       let response = await fetch(
-        "http://tam-application.studio/api/home/trainees",
+        "http://localhost:5000/api/home/trainees",
         {
           credentials: "include",
         }
@@ -16,7 +16,7 @@ const TraineeManager = {
   getOptional: async () => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainees/programmingoptional`,
+        `http://localhost:5000/api/home/trainees/programmingoptional`,
         {
           credentials: "include",
         }
@@ -30,7 +30,7 @@ const TraineeManager = {
   getTraineeDetail: async (traineeId) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainees/profile/${traineeId}`,
+        `http://localhost:5000/api/home/trainees/profile/${traineeId}`,
         {
           credentials: "include",
         }
@@ -44,7 +44,7 @@ const TraineeManager = {
   changeTraineePassword: async (traineeId, passwordObj) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainees/changepassword/${traineeId}`,
+        `http://localhost:5000/api/home/trainees/changepassword/${traineeId}`,
         {
           method: "PUT",
           credentials: "include",
@@ -64,7 +64,7 @@ const TraineeManager = {
   createNewTrainee: async (traineeObj) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainees/create`,
+        `http://localhost:5000/api/home/trainees/create`,
         {
           method: "POST",
           credentials: "include",
@@ -84,7 +84,7 @@ const TraineeManager = {
   editTraineeAccount: async (traineeId, traineeObj) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainees/edit/${traineeId}`,
+        `http://localhost:5000/api/home/trainees/edit/${traineeId}`,
         {
           method: "PUT",
           credentials: "include",
@@ -104,7 +104,7 @@ const TraineeManager = {
   deleteTraineeAccount: async (traineeId) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainees/delete/${traineeId}`,
+        `http://localhost:5000/api/home/trainees/delete/${traineeId}`,
         {
           method: "DELETE",
           credentials: "include",

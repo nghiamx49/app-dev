@@ -2,7 +2,7 @@ const CoursesService = {
   getAllCourses: async () => {
     try {
       let response = await fetch(
-        "http://tam-application.studio/api/home/courses",
+        "http://localhost:5000/api/home/courses",
         {
           credentials: "include",
         }
@@ -16,7 +16,7 @@ const CoursesService = {
   getCourseDetail: async (courseId) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/courses/detail/${courseId}`,
+        `http://localhost:5000/api/home/courses/detail/${courseId}`,
         {
           credentials: "include",
         }
@@ -30,7 +30,7 @@ const CoursesService = {
   createCourse: async (course) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/courses/create/`,
+        `http://localhost:5000/api/home/courses/create/`,
         {
           method: "POST",
           credentials: "include",
@@ -50,7 +50,7 @@ const CoursesService = {
   editCourse: async (courseId, course) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/courses/edit/${courseId}`,
+        `http://localhost:5000/api/home/courses/edit/${courseId}`,
         {
           method: "PUT",
           credentials: "include",
@@ -70,7 +70,7 @@ const CoursesService = {
   deleteCourse: async (courseId) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/courses/delete/${courseId}`,
+        `http://localhost:5000/api/home/courses/delete/${courseId}`,
         {
           method: "DELETE",
           credentials: "include",
