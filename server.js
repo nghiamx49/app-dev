@@ -44,7 +44,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://tam-application.studio:8080",
     credentials: true,
   })
 );
