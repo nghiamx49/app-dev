@@ -114,20 +114,16 @@ userRelatedCourses.param(
   async (req, res, next, relatedCourseId) => {
     try {
       let relatedCourse = await RelatedCourses.findById(relatedCourseId);
-      const { _id, userId, courseId } = relatedCourse;
+      const { _id, courseId } = relatedCourse;
       let course = await Course.findById(courseId[0]);
       let category = await Category.findById(course.categoryId[0]);
-      let user = await User.findById(userId[0]);
       req.relatedCourse = {
         _id,
-        userId,
-        username: user.username || "",
-        courseId,
         courseName: course.name || "",
         courseDescription: course.description || "",
         categoryName: category.name || "",
       };
-      await next();
+      next();
     } catch (error) {
       res.status(500).json({ message: { mesBody: "Errors" }, mesError: true });
       next(error);

@@ -22,21 +22,13 @@ const RelatedCourses = () => {
 
   const handleDetailClose = () => {
     setDetailShow(false);
-    getRelatedCourses();
   };
 
   //END HANDLE DETAIL ACTION
 
   const getDetail = async (itemId) => {
-    try {
-      let data = await ProfileService.getDetailOwnRelatedCourse(
-        user._id,
-        itemId
-      );
-      setActiveItem(data.message.relatedCourse);
-    } catch (error) {
-      alert(error);
-    }
+    let data = await ProfileService.getDetailOwnRelatedCourse(user._id, itemId);
+    setActiveItem(data.message.relatedCourse);
   };
 
   const getRelatedCourses = async () => {

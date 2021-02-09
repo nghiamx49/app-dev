@@ -19,7 +19,7 @@ userProfile.param("userId", async (req, res, next, userId) => {
         .json({ message: { mesBody: "User not found" }, mesError: true });
     }
     const { _id, username, password, name, roleId } = user;
-    let role = await Role.findById(user.roleId);
+    let role = await Role.findById(roleId);
     if (role.name === "trainee") {
       let traineeInfo = await TraineeInfo.findById(user.traineeInfoId[0]);
       const {
@@ -89,7 +89,6 @@ userProfile.get("/:userId", (req, res, next) => {
   res
     .status(200)
     .json({ message: { userInfo: req.userInfo }, mesError: false });
-  next();
 });
 
 userProfile.put("/edit/:userId", async (req, res, next) => {
