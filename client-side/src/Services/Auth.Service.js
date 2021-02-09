@@ -2,7 +2,7 @@ const AuthService = {
   login: async (user) => {
     try {
       let response = await fetch(
-        "http://tam-application.studio/api/auth/login",
+        "http://localhost:5000/auth/login",
         {
           method: "POST",
           credentials: "include",
@@ -26,7 +26,7 @@ const AuthService = {
   logout: async () => {
     try {
       let response = await fetch(
-        "http://tam-application.studio/api/auth/logout",
+        "http://localhost:5000/auth/logout",
         {
           credentials: "include",
         }
@@ -40,7 +40,7 @@ const AuthService = {
   isAuthenticated: async () => {
     try {
       let response = await fetch(
-        "http://tam-application.studio/api/auth/authenticated",
+        "http://localhost:5000/auth/authenticated",
         {
           credentials: "include",
         }

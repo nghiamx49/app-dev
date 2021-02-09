@@ -180,7 +180,7 @@ const NavBar = (props) => {
 
   useEffect(() => {
     getDetail();
-  }, [user.name]);
+  }, []);
 
   const trainerNav = () => {
     return (
@@ -242,7 +242,7 @@ const NavBar = (props) => {
           {!isAuthenticated ? null : (
             <span className="navbar-text actions">
               <button className="btn btn-dark" onClick={handleProfileOpen}>
-                {"Hello, " + activeItem.name}
+                {"Hello, " + user.username}
               </button>
               <Edit
                 user={activeItem}

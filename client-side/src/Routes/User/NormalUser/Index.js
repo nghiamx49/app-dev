@@ -45,7 +45,7 @@ const RelatedCourses = () => {
       <NavBar />
       <div style={containerStyle}>
         <h1 className="text-center font-weight-bold text-dark">
-          All Training's Staff
+          All Related Courses
         </h1>
         <table className="table">
           <thead className="thead-dark">
@@ -66,7 +66,9 @@ const RelatedCourses = () => {
                   <td>
                     <button
                       className="btn btn-info"
-                      onClick={(e) => handleDetailOpen(relatedCourse._id)}
+                      onClick={async () =>
+                        await handleDetailOpen(relatedCourse._id)
+                      }
                     >
                       <i className="fas fa-info"></i>&nbsp;Detail
                     </button>

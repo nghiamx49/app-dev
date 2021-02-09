@@ -2,7 +2,7 @@ const TrainerRelatedCourses = {
   getAllReatedCourses: async (trainerId) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainers/profile/${trainerId}/relatedcourses`,
+        `http://localhost:5000/home/trainers/profile/${trainerId}/relatedcourses`,
         {
           credentials: "include",
         }
@@ -16,7 +16,7 @@ const TrainerRelatedCourses = {
   getRelatedCourseDetail: async (userId, itemId) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainers/profile/${userId}/relatedcourses/detail/${itemId}`,
+        `http://localhost:5000/home/trainers/profile/${userId}/relatedcourses/detail/${itemId}`,
         {
           credentials: "include",
         }
@@ -30,7 +30,7 @@ const TrainerRelatedCourses = {
   getDataSelection: async (userId) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainers/profile/${userId}/relatedcourses/dataoptional`,
+        `http://localhost:5000/home/trainers/profile/${userId}/relatedcourses/dataoptional`,
         {
           credentials: "include",
         }
@@ -44,7 +44,7 @@ const TrainerRelatedCourses = {
   assignNewCourse: async (userId, relatedCourse) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainers/profile/${userId}/relatedcourses/assign`,
+        `http://localhost:5000/home/trainers/profile/${userId}/relatedcourses/assign`,
         {
           credentials: "include",
           method: "POST",
@@ -64,7 +64,7 @@ const TrainerRelatedCourses = {
   changeAssignedCourse: async (userId, itemId, relatedCourse) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainers/profile/${userId}/relatedcourses/change/${itemId}`,
+        `http://localhost:5000/home/trainers/profile/${userId}/relatedcourses/change/${itemId}`,
         {
           credentials: "include",
           method: "PUT",
@@ -84,7 +84,7 @@ const TrainerRelatedCourses = {
   removeAssignedCourse: async (userId, itemId) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/trainers/profile/${userId}/relatedcourses/remove/${itemId}`,
+        `http://localhost:5000/home/trainers/profile/${userId}/relatedcourses/remove/${itemId}`,
         {
           credentials: "include",
           method: "DELETE",
