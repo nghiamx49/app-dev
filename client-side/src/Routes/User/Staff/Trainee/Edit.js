@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Collapse, Card } from "react-bootstrap";
 import Message from "../../../Components/Message";
 const Edit = (props) => {
   let trainee = props.user;
@@ -10,6 +10,8 @@ const Edit = (props) => {
     handleChange,
     handleSubmit,
     message,
+    isOpen,
+    toggle,
   } = props;
 
   return (
@@ -27,14 +29,19 @@ const Edit = (props) => {
           onChange={handleChange}
         />
         <br />
-        <label className="font-weight-bold">Date Of Birth:</label>&nbsp;
+        <label className="font-weight-bold">Date Of Birth:</label>&nbsp;{" "}
         <label className="form-control">{trainee.dateOfBirth}</label>
-        <input
-          type="date"
-          name="dateOfBirth"
-          className="form-control"
-          onChange={handleChange}
-        />
+        <button className="btn btn-primary" onClick={toggle}>
+          <i className="fas fa-calendar-alt"></i>
+        </button>
+        <Collapse in={isOpen}>
+          <input
+            type="date"
+            name="dateOfBirth"
+            className="form-control"
+            onChange={handleChange}
+          />
+        </Collapse>
         <br />
         <label className="font-weight-bold">Age:</label>&nbsp;
         <input

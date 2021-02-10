@@ -47,6 +47,9 @@ const Trainer = (props) => {
   const [programmings, setProgrammings] = useState([]);
   const [searchField, setSearchField] = useState(null);
   const [searchOption, setSearchOption] = useState("username");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => setIsOpen(!isOpen);
   //HANDLE DETAIL ACTION
   const handleDetailOpen = async (traineeId) => {
     await getDetail(traineeId);
@@ -363,6 +366,8 @@ const Trainer = (props) => {
                     <Edit
                       show={editShow}
                       programmings={programmings}
+                      toggle={toggle}
+                      isOpen={isOpen}
                       user={activeTrainee}
                       handleClose={handleEditClose}
                       handleChange={handleChange}
