@@ -14,6 +14,7 @@ db.relatedCourses = require("../Model/RelatedCourses.Model");
 db.traineeInfo = require("../Model/TraineeInfo.Mode");
 db.trainerInfo = require("../Model/TrainerInfo.Model");
 db.trainerTypes = require("../Model/TrainerTypes.Model");
+db.request = require("../Model/Request.Model");
 
 const User = db.users;
 const Roles = db.roles;

@@ -12,6 +12,7 @@ const traineeManager = require("./staff/trainee.Manage");
 const courseCRUD = require("./courses.CRUD");
 const checkRole = require("../../Middleware/checkRole.Middleware");
 const categoryCRUD = require("./categories.CRUD");
+const requestRoute = require("./request.Courses");
 
 //after logged into application, use will had access right to this route based on their role
 userRoute.use(passport.authenticate("jwt", { session: false }));
@@ -44,5 +45,6 @@ userRoute.use("/categories", categoryCRUD);
 //manage trainer profile and related courses by staff role
 userRoute.use("/trainers", trainerManager);
 userRoute.use("/trainees", traineeManager);
+userRoute.use("/requests", requestRoute);
 
 module.exports = userRoute;
