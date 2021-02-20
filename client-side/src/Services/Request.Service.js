@@ -10,16 +10,17 @@ const RequestService = {
       console.log(error);
     }
   },
-  allowRequest: async (requestId) => {
+  allowRequest: async (requestId, reqObj) => {
     try {
       let response = await fetch(
         `http://localhost:5000/api/home/requests/allow/${requestId}`,
         {
           credentials: "include",
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify(reqObj),
         }
       );
       let data = await response.json();

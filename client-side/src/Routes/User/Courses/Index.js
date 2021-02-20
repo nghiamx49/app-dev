@@ -5,8 +5,10 @@ import Detail from "./Detail";
 import Edit from "./Edit";
 import Create from "./Create";
 import Delete from "./Delete";
+import Notice from "./Notice";
 import CoursesService from "../../../Services/Courses.Service";
 import CategoriesService from "../../../Services/Categories.Service";
+import RequestService from "../../../Services/Request.Service";
 import { AuthContext } from "../../../Context/Auth.Context";
 const containerStyle = {
   margin: "100px",
@@ -40,6 +42,7 @@ const Courses = (props) => {
   const handleDetailClose = () => {
     setDetailShow(false);
   };
+  const [notice, setNotice] = useState(false);
 
   //END HANDLE DETAIL ACTION
 
@@ -172,6 +175,25 @@ const Courses = (props) => {
     getAllCourses();
   };
 
+  const makeRequest = async (courseName) => {
+    try {
+      let data = await RequestService.makeRequest({
+        username: user.username,
+        courseName: courseName,
+      });
+      const { message, mesError } = data;
+      await setMessage({ mesBody: message.mesBody, mesError: mesError });
+      setNotice(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const closeNotice = () => {
+    setMessage(null);
+    setNotice(false);
+  };
+
   useEffect(() => {
     getAllCourses();
     getAllCategories();
@@ -182,7 +204,7 @@ const Courses = (props) => {
       <NavBar />
       <div style={containerStyle}>
         <h1 className="text-center font-weight-bold text-dark">All Courses</h1>
-        {user.role === "staff" ? (
+        {user.role === "staff" && (
           <div className="input-group" style={searchStyle}>
             <div>
               <input
@@ -211,13 +233,14 @@ const Courses = (props) => {
               <i className="fas fa-redo"></i>
             </button>
           </div>
-        ) : null}
+        )}
         <table className="table">
           <thead className="thead-dark">
             <tr>
               <th scope="col">Course</th>
               <th scope="col">Category</th>
-              {user.role === "staff" ? <th scope="col">Action</th> : null}
+              {user.role === "staff" ||
+                (user.role === "trainee" && <th scope="col">Action</th>)}
             </tr>
           </thead>
           <tbody>
@@ -226,7 +249,7 @@ const Courses = (props) => {
                 <tr key={course._id}>
                   <td>{course.courseName}</td>
                   <td>{course.courseCategory}</td>
-                  {user.role === "staff" ? (
+                  {user.role === "staff" && (
                     <td>
                       <button
                         className="btn btn-info"
@@ -270,7 +293,26 @@ const Courses = (props) => {
                         message={message}
                       />
                     </td>
-                  ) : null}
+                  )}
+                  {user.role === "trainee" && (
+                    <td>
+                      <div className="row">
+                        <button
+                          className="btn btn-success"
+                          data-toggle="modal"
+                          onClick={() => makeRequest(course.courseName)}
+                        >
+                          <i className="fas fa-share-square"></i>
+                          {"  "}Request to Join
+                        </button>
+                        <Notice
+                          show={notice}
+                          handleClose={closeNotice}
+                          message={message}
+                        />
+                      </div>
+                    </td>
+                  )}
                 </tr>
               );
             })}

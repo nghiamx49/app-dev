@@ -11,6 +11,7 @@ import Courses from "./Routes/User/Courses/Index";
 import Categories from "./Routes/User/Categories/Index";
 import TrainerInStaff from "./Routes/User/Staff/Trainer/Index";
 import TraineeInStaff from "./Routes/User/Staff/Trainee/Index";
+import Request from "./Routes/User/Staff/Request/Index";
 import UnprivateRoute from "./Hocs/unprivateRoute";
 import NotFound from "./Routes/Components/NotFound";
 import TrainerRelatedCourses from "./Routes/User/Staff/TrainerRelatedCourses/Index";
@@ -84,6 +85,12 @@ function App() {
           path="/home/trainee/profile/:userId/relatedcourses"
           roles={["staff"]}
           component={TraineeRelatedCourses}
+          exact
+        />
+        <PrivateRoute
+          path="/home/requests"
+          roles={["staff"]}
+          component={Request}
           exact
         />
         <Route path="*" component={NotFound} />

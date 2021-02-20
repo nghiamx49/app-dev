@@ -27,7 +27,8 @@
     "passport-local": "^1.0.0",
     "pm2": "^4.5.4",
     "swagger-jsdoc": "^6.0.1",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "prettier": "^2.2.1"

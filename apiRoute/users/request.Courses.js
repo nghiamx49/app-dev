@@ -6,7 +6,7 @@ const passportConf = require("../../Middleware/Auth.Middleware");
 const Requests = db.request;
 const RelatedCourses = db.relatedCourses;
 const Courses = db.courses;
-const Users = db.Users;
+const Users = db.users;
 const checkRole = require("../../Middleware/checkRole.Middleware");
 
 requestRoute.get("/", checkRole.isStaff, async (req, res, next) => {
@@ -23,7 +23,7 @@ requestRoute.get("/", checkRole.isStaff, async (req, res, next) => {
 requestRoute.post("/join", checkRole.isTrainee, async (req, res, next) => {
   try {
     const { username, courseName } = req.body;
-    let findCouse = await Courses.findOne({ courseName });
+    let findCouse = await Courses.findOne({ name: courseName });
     let findUser = await Users.findOne({ username });
     let checkIfExistRC = await RelatedCourses.findOne({
       courseId: findCouse._id,
@@ -34,6 +34,7 @@ requestRoute.post("/join", checkRole.isTrainee, async (req, res, next) => {
         message: { mesBody: "Your have already joined this courses" },
         mesError: true,
       });
+      return;
     }
     let checkIfExistRequest = await Requests.findOne({ username, courseName });
     if (checkIfExistRequest) {
@@ -41,6 +42,7 @@ requestRoute.post("/join", checkRole.isTrainee, async (req, res, next) => {
         message: { mesBody: "Your have requested to join this courses" },
         mesError: true,
       });
+      return;
     }
     let newRequest = await new Requests({ username, courseName, apply: 0 });
     await newRequest.save();
@@ -53,13 +55,21 @@ requestRoute.post("/join", checkRole.isTrainee, async (req, res, next) => {
   }
 });
 
-requestRoute.put(
+requestRoute.post(
   "/allow/:requestId",
   checkRole.isStaff,
   async (req, res, next) => {
     try {
       const { requestId } = req.params;
-      let request = await Requests.findById({ requestId });
+      const { username, courseName } = req.body;
+      let request = await Requests.findById(requestId);
+      let user = await Users.findOne({ username });
+      let course = await Courses.findOne({ name: courseName });
+      let newRC = await new RelatedCourses({
+        userId: user,
+        courseId: course,
+      });
+      await newRC.save();
       request.apply = 1;
       await request.save();
       res.status(200).json({

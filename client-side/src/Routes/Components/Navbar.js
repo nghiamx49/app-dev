@@ -157,6 +157,11 @@ const NavBar = (props) => {
             <div className="nav-link">Categories</div>
           </Link>
         </li>
+        <li className="nav-item">
+          <Link to="/home/requests">
+            <div className="nav-link">All Requests</div>
+          </Link>
+        </li>
       </>
     );
   };
