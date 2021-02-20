@@ -35,7 +35,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://tam-application.studio:8080",
     credentials: true,
   })
 );
@@ -45,10 +45,10 @@ app.use(passport.session());
 app.use(errorHandler());
 
 //routing api
-app.use("/api/auth", authRoute);
-app.use("/api/admin", adminRoute);
-app.use("/api/profile", userProfile);
-app.use("/api/home", userRoute);
+app.use("/auth", authRoute);
+app.use("/admin", adminRoute);
+app.use("/profile", userProfile);
+app.use("/home", userRoute);
 
 app.listen(PORT, () => {
   console.log(`sever up and run on ${PORT}`);

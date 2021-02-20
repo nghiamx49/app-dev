@@ -1,7 +1,7 @@
 const RequestService = {
   getAllRequest: async () => {
     try {
-      let response = await fetch("http://localhost:5000/api/home/requests/", {
+      let response = await fetch("http://tam-application.studio/api/home/requests/", {
         credentials: "include",
       });
       let data = await response.json();
@@ -13,7 +13,7 @@ const RequestService = {
   allowRequest: async (requestId, reqObj) => {
     try {
       let response = await fetch(
-        `http://localhost:5000/api/home/requests/allow/${requestId}`,
+        `http://tam-application.studio/api/home/requests/allow/${requestId}`,
         {
           credentials: "include",
           method: "POST",
@@ -32,7 +32,7 @@ const RequestService = {
   rejectRequest: async (requestId) => {
     try {
       let response = await fetch(
-        `http://localhost:5000/api/home/requests/reject/${requestId}`,
+        `http://tam-application.studio/api/home/requests/reject/${requestId}`,
         {
           credentials: "include",
           method: "DELETE",
@@ -50,7 +50,7 @@ const RequestService = {
   makeRequest: async (request) => {
     try {
       let response = await fetch(
-        `http://localhost:5000/api/home/requests/join`,
+        `http://tam-application.studio/api/home/requests/join`,
         {
           credentials: "include",
           method: "POST",
