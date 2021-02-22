@@ -2,7 +2,7 @@ const CategoriesService = {
   getAllCategories: async () => {
     try {
       let response = await fetch(
-        "http://tam-application.studio/api/home/categories",
+        "http://tam-application/api/home/categories",
         {
           credentials: "include",
         }
@@ -16,7 +16,7 @@ const CategoriesService = {
   getCategoryDetail: async (categoryId) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/categories/detail/${categoryId}`,
+        `http://tam-application/api/home/categories/detail/${categoryId}`,
         {
           credentials: "include",
         }
@@ -30,7 +30,7 @@ const CategoriesService = {
   createCategory: async (category) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/categories/create`,
+        `http://tam-application/api/home/categories/create`,
         {
           method: "POST",
           credentials: "include",
@@ -50,7 +50,7 @@ const CategoriesService = {
   editCategory: async (categoryId, category) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/categories/edit/${categoryId}`,
+        `http://tam-application/api/home/categories/edit/${categoryId}`,
         {
           method: "PUT",
           credentials: "include",
@@ -70,7 +70,7 @@ const CategoriesService = {
   deleteCategory: async (categoryId) => {
     try {
       let response = await fetch(
-        `http://tam-application.studio/api/home/categories/delete/${categoryId}`,
+        `http://tam-application/api/home/categories/delete/${categoryId}`,
         {
           method: "DELETE",
           credentials: "include",

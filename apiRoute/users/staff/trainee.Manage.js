@@ -163,7 +163,12 @@ traineeManager.post("/create", async (req, res, next) => {
       experienceDetails,
       department,
     } = req.body;
-    let programmingId = await Programming.find({ name: programming });
+    let userCheck = User.findOne({username});
+    if(userCheck) {
+      res.status(400).json({message: {mesBody: "Username had already taken"}, mesError: true})
+    }
+    else {
+      let programmingId = await Programming.find({ name: programming });
     let traineeInfoId = await new TraineeInfo({
       dateOfBirth,
       age,
@@ -187,6 +192,7 @@ traineeManager.post("/create", async (req, res, next) => {
       message: { mesBody: "create trainee successfully" },
       mesError: false,
     });
+    }
   } catch (error) {
     res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);

@@ -239,8 +239,7 @@ const Courses = (props) => {
             <tr>
               <th scope="col">Course</th>
               <th scope="col">Category</th>
-              {user.role === "staff" ||
-                (user.role === "trainee" && <th scope="col">Action</th>)}
+              {(user.role === "staff" || "trainee") && <th scope="col">Action</th>}
             </tr>
           </thead>
           <tbody>

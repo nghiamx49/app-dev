@@ -32,22 +32,23 @@ categoryCRUD.get("/", async (req, res, next) => {
 categoryCRUD.post("/create", checkRole.isStaff, async (req, res, next) => {
   try {
     const { name, description } = req.body;
-    let checkIfExist = await Category.find({ name: name });
+    let checkIfExist = await Category.findOne({ name: name });
     if (checkIfExist) {
       res.status(400).json({
         message: { mesBody: "This category is already exists" },
         mesError: true,
       });
+    } else {
+      let category = await new Category({
+        name,
+        description,
+      });
+      await category.save();
+      res.status(200).json({
+        message: { mesBody: "Create new category successfully" },
+        mesError: false,
+      });
     }
-    let category = await new Category({
-      name,
-      description,
-    });
-    await category.save();
-    res.status(200).json({
-      message: { mesBody: "Create new category successfully" },
-      mesError: false,
-    });
   } catch (error) {
     res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);

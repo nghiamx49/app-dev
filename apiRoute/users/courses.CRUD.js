@@ -42,13 +42,14 @@ courseCRUD.get("/", async (req, res, next) => {
 courseCRUD.post("/create", checkRole.isStaff, async (req, res, next) => {
   try {
     const { courseName, courseDescription, courseCategory } = req.body;
-    let checkIfExist = await Course.find({ name: courseName });
+    let checkIfExist = await Course.findOne({ name: courseName });
     if (checkIfExist) {
       res.status(400).json({
         message: { mesBody: "This course is already exists" },
         mesError: true,
       });
     }
+    else {
     let categoryId = await Category.find({ name: courseCategory });
     let course = await new Course({
       name: courseName,
@@ -60,6 +61,7 @@ courseCRUD.post("/create", checkRole.isStaff, async (req, res, next) => {
       message: { mesBody: "Create new course successfully" },
       mesError: false,
     });
+  }
   } catch (error) {
     res.status(500).json({ message: { mesBody: "Error" }, mesError: true });
     next(error);

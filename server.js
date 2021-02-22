@@ -35,7 +35,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "http://tam-application.studio:8080",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -49,7 +49,6 @@ app.use("/auth", authRoute);
 app.use("/admin", adminRoute);
 app.use("/profile", userProfile);
 app.use("/home", userRoute);
-
 app.listen(PORT, () => {
   console.log(`sever up and run on ${PORT}`);
 });
