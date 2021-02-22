@@ -1,7 +1,7 @@
 const AdminService = {
   allTrainer: async () => {
     try {
-      let response = await fetch("http://tam-application/api/admin/trainer", {
+      let response = await fetch("http://tam-application.studio/api/admin/trainer", {
         credentials: "include",
       });
       let data = await response.json();
@@ -13,7 +13,7 @@ const AdminService = {
   trainerDetail: async (trainerId) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/admin/trainer/detail/${trainerId}`,
+        `http://tam-application.studio/api/admin/trainer/detail/${trainerId}`,
         {
           credentials: "include",
         }
@@ -27,7 +27,7 @@ const AdminService = {
   trainerCreate: async (trainer) => {
     try {
       let response = await fetch(
-        "http://tam-application/api/admin/trainer/create",
+        "http://tam-application.studio/api/admin/trainer/create",
         {
           method: "POST",
           credentials: "include",
@@ -47,7 +47,7 @@ const AdminService = {
   trainerEdit: async (trainerId, trainer) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/admin/trainer/edit/${trainerId}`,
+        `http://tam-application.studio/api/admin/trainer/edit/${trainerId}`,
         {
           method: "PUT",
           credentials: "include",
@@ -67,7 +67,7 @@ const AdminService = {
   trainerDelete: async (trainerId) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/admin/trainer/delete/${trainerId}`,
+        `http://tam-application.studio/api/admin/trainer/delete/${trainerId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -86,7 +86,7 @@ const AdminService = {
   trainerChangePass: async (trainerId, changePassword) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/admin/trainer/changepassword/${trainerId}`,
+        `http://tam-application.studio/api/admin/trainer/changepassword/${trainerId}`,
         {
           method: "PUT",
           credentials: "include",
@@ -105,7 +105,7 @@ const AdminService = {
   },
   allStaff: async () => {
     try {
-      let response = await fetch("http://tam-application/api/admin/staff", {
+      let response = await fetch("http://tam-application.studio/api/admin/staff", {
         credentials: "include",
       });
       let data = await response.json();
@@ -117,7 +117,7 @@ const AdminService = {
   staffDetail: async (staffId) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/admin/staff/detail/${staffId}`,
+        `http://tam-application.studio/api/admin/staff/detail/${staffId}`,
         {
           credentials: "include",
         }
@@ -131,7 +131,7 @@ const AdminService = {
   staffCreate: async (staff) => {
     try {
       let response = await fetch(
-        "http://tam-application/api/admin/staff/create",
+        "http://tam-application.studio/api/admin/staff/create",
         {
           method: "POST",
           credentials: "include",
@@ -151,7 +151,7 @@ const AdminService = {
   staffEdit: async (staffId, staff) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/admin/staff/edit/${staffId}`,
+        `http://tam-application.studio/api/admin/staff/edit/${staffId}`,
         {
           method: "PUT",
           credentials: "include",
@@ -171,7 +171,7 @@ const AdminService = {
   staffDelete: async (staffId) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/admin/staff/delete/${staffId}`,
+        `http://tam-application.studio/api/admin/staff/delete/${staffId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -190,7 +190,7 @@ const AdminService = {
   staffChangePass: async (staffId, passwordObj) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/admin/staff/changepassword/${staffId}`,
+        `http://tam-application.studio/api/admin/staff/changepassword/${staffId}`,
         {
           method: "PUT",
           credentials: "include",

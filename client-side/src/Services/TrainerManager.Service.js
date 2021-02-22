@@ -2,7 +2,7 @@ const TrainerManager = {
   getAllTrainer: async () => {
     try {
       let reponse = await fetch(
-        "http://tam-application/api/home/trainers",
+        "http://tam-application.studio/api/home/trainers",
         {
           credentials: "include",
         }
@@ -16,7 +16,7 @@ const TrainerManager = {
   getTrainerDetail: async (trainerId) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/home/trainers/profile/${trainerId}`,
+        `http://tam-application.studio/api/home/trainers/profile/${trainerId}`,
         {
           credentials: "include",
         }
@@ -30,7 +30,7 @@ const TrainerManager = {
   editTrainerProfile: async (trainerId, trainer) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/home/trainers/profile/${trainerId}`,
+        `http://tam-application.studio/api/home/trainers/profile/${trainerId}`,
         {
           method: "PUT",
           credentials: "include",

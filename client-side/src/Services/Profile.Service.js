@@ -2,7 +2,7 @@ const ProfileService = {
   getOwnRelatedCourses: async (userId) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/profile/${userId}/relatedcourses`,
+        `http://tam-application.studio/api/profile/${userId}/relatedcourses`,
         {
           credentials: "include",
         }
@@ -16,7 +16,7 @@ const ProfileService = {
   getDetailOwnRelatedCourse: async (userId, itemId) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/profile/${userId}/relatedcourses/detail/${itemId}`,
+        `http://tam-application.studio/api/profile/${userId}/relatedcourses/detail/${itemId}`,
         {
           credentials: "include",
         }
@@ -30,7 +30,7 @@ const ProfileService = {
   getProfileDetail: async (userId) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/profile/${userId}`,
+        `http://tam-application.studio/api/profile/${userId}`,
         {
           credentials: "include",
         }
@@ -44,7 +44,7 @@ const ProfileService = {
   editProfile: async (userId, updateObj) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/profile/edit/${userId}`,
+        `http://tam-application.studio/api/profile/edit/${userId}`,
         {
           method: "PUT",
           body: JSON.stringify(updateObj),
@@ -64,7 +64,7 @@ const ProfileService = {
   changeProfilePassword: async (userId, passwordObj) => {
     try {
       let response = await fetch(
-        `http://tam-application/api/profile/changepassword/${userId}`,
+        `http://tam-application.studio/api/profile/changepassword/${userId}`,
         {
           method: "PUT",
           credentials: "include",
