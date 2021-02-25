@@ -1,15 +1,22 @@
-#admin account
+# admin account
+```bash
 -username: admin
 -password: admin
-
-#training's staff account:
+```
+# training's staff account:
+```bash
 -username: staff
 -password: staff
+```
 
-#trainee account:
+# trainee account:
+```bash
 -username: trainee
 -password: trainee
+```
 
-#trainer account:
+# trainer account:
+```bash
 -username: trainer
 -password: trainer
+```
