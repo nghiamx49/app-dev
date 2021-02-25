@@ -36,7 +36,7 @@ UsersSchema.methods.comparePassword = function (password, callback) {
       if (!isMatch) {
         return callback(null, false);
       }
-      return callback(null, this);
+      return callback(null, this);// expreess: req.user
     }
   });
 };

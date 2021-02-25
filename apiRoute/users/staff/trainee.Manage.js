@@ -163,13 +163,13 @@ traineeManager.post("/create", async (req, res, next) => {
       experienceDetails,
       department,
     } = req.body;
-    let userCheck = User.findOne({username});
+    let userCheck = await User.findOne({username: username});
     if(userCheck) {
       res.status(400).json({message: {mesBody: "Username had already taken"}, mesError: true})
     }
     else {
       let programmingId = await Programming.find({ name: programming });
-    let traineeInfoId = await new TraineeInfo({
+      let traineeInfoId = await new TraineeInfo({
       dateOfBirth,
       age,
       email,

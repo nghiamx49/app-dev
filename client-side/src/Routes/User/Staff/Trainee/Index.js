@@ -98,6 +98,13 @@ const Trainer = (props) => {
         setMessage({ mesBody: "Age must be number", mesError: true });
         return;
       }
+      else if (activeTrainee.TOEICScore < 0 || activeTrainee.TOEICScore > 950) {
+        setMessage({
+          mesBody: "TOEIC Score must be in range from 0 - 950",
+          mesError: true,
+        });
+        return;
+      }
       let res = await TraineeManagerService.editTraineeAccount(
         traineeId,
         activeTrainee
