@@ -93,15 +93,21 @@ userRelatedCourses.post(
           mesError: true,
         });
       }
-      let relatedCourse = await new RelatedCourses({
-        courseId,
-        userId,
-      });
-      await relatedCourse.save();
-      res.status(200).json({
-        message: { mesBody: "Assign course successfully" },
-        mesError: false,
-      });
+      let findRelateCourse = await RelatedCourses.findOne({courseId: courseId, userId: userId});
+      if(findRelateCourse) {
+        res.status(400).json({message: {mesBody: "This course had been assigned to this user"}, mesError: true})
+      }
+      else {
+        let relatedCourse = await new RelatedCourses({
+          courseId,
+          userId,
+        });
+        await relatedCourse.save();
+        res.status(200).json({
+          message: { mesBody: "Assign course successfully" },
+          mesError: false,
+        });
+      }
     } catch (error) {
       res.status(500).json({ message: { mesBody: "Errors" }, mesError: true });
       next(error);

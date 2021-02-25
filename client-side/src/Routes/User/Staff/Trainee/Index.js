@@ -156,6 +156,12 @@ const Trainer = (props) => {
           mesError: true,
         });
         return;
+      }else if (newTrainee.TOEICScore < 0 || newTrainee.TOEICScore > 950) {
+        setMessage({
+          mesBody: "TOEIC Score must be in range from 0 - 950",
+          mesError: true,
+        });
+        return;
       }
       let res = await TraineeManagerService.createNewTrainee(newTrainee);
       const { message, mesError } = res;
