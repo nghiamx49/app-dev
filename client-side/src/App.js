@@ -1,21 +1,21 @@
 import React from "react";
-import Login from "./Routes/Login";
+import Login from "./features/Login";
 import PrivateRoute from "./Hocs/privateRoute";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Dashboard from "./Routes/Admin/Dashboard";
-import Home from "./Routes/User/Home";
-import TrainerInAdmin from "./Routes/Admin/Trainer/Index";
-import StaffInAdmin from "./Routes/Admin/Staff/Index";
-import RelatedCourses from "./Routes/User/NormalUser/Index";
-import Courses from "./Routes/User/Courses/Index";
-import Categories from "./Routes/User/Categories/Index";
-import TrainerInStaff from "./Routes/User/Staff/Trainer/Index";
-import TraineeInStaff from "./Routes/User/Staff/Trainee/Index";
-import Request from "./Routes/User/Staff/Request/Index";
+import Dashboard from "./features/Admin/Dashboard";
+import Home from "./features/User/Home";
+import TrainerInAdmin from "./features/Admin/Trainer/Index";
+import StaffInAdmin from "./features/Admin/Staff/Index";
+import RelatedCourses from "./features/User/NormalUser/Index";
+import Courses from "./features/User/Courses/Index";
+import Categories from "./features/User/Categories/Index";
+import TrainerInStaff from "./features/User/Staff/Trainer/Index";
+import TraineeInStaff from "./features/User/Staff/Trainee/Index";
+import Request from "./features/User/Staff/Request/Index";
 import UnprivateRoute from "./Hocs/unprivateRoute";
-import NotFound from "./Routes/Components/NotFound";
-import TrainerRelatedCourses from "./Routes/User/Staff/TrainerRelatedCourses/Index";
-import TraineeRelatedCourses from "./Routes/User/Staff/TraineeRelatedCourses/Index";
+import NotFound from "./features/Components/NotFound";
+import TrainerRelatedCourses from "./features/User/Staff/TrainerRelatedCourses/Index";
+import TraineeRelatedCourses from "./features/User/Staff/TraineeRelatedCourses/Index";
 function App() {
   return (
     <Router>
